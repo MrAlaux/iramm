@@ -78,6 +78,7 @@ typedef struct
 	int truecolor;
 #endif
 	int uncapped;
+	int viewheight; // [IRamm]
 	int vsync;
 	int weaponsquat;
 	int widescreen;
