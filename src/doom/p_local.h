@@ -25,12 +25,16 @@
 #endif
 
 #define TOCENTER                -8
+#define AFLAG_CROUCH            0x40
 #define AFLAG_JUMP              0x80
 #define FLOATSPEED		(FRACUNIT*4)
 
 
 #define MAXHEALTH		100
 #define VIEWHEIGHT		(41*FRACUNIT)
+#define CVIEWHEIGHT     (VIEWHEIGHT/2)
+#define ALTVIEWHEIGHT	(46*FRACUNIT)
+#define ALTCVIEWHEIGHT  (ALTVIEWHEIGHT/2)
 
 // mapblocks are used to check movement
 // against lines and things
@@ -66,7 +70,7 @@
 //
 
 // both the head and tail of the thinker list
-extern	thinker_t	thinkercap;	
+extern	thinker_t	thinkercap;
 
 
 void P_InitThinkers (void);
@@ -142,7 +146,7 @@ typedef struct
     fixed_t	y;
     fixed_t	dx;
     fixed_t	dy;
-    
+
 } divline_t;
 
 typedef struct
