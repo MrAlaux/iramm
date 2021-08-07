@@ -45,6 +45,7 @@ static struct
     { heretic,   retail,     5, 9 },
     { hexen,     commercial, 1, 60 },
     { strife,    commercial, 1, 34 },
+    { iramm,     commercial, 1, 32 },
 };
 
 // Check that a gamemode+gamemission received over the network is valid.
@@ -85,7 +86,7 @@ boolean D_ValidEpisodeMap(GameMission_t mission, GameMode_t mode,
 
     // Find the table entry for this mission/mode combination.
 
-    for (i=0; i<arrlen(valid_modes); ++i) 
+    for (i=0; i<arrlen(valid_modes); ++i)
     {
         if (mission == valid_modes[i].mission
          && mode == valid_modes[i].mode)
@@ -146,14 +147,14 @@ boolean D_ValidGameVersion(GameMission_t mission, GameVersion_t version)
 
     if (mission == doom2 || mission == pack_plut || mission == pack_tnt
      || mission == pack_hacx || mission == pack_chex
-     || mission == pack_nerve || mission == pack_master)
+     || mission == pack_nerve || mission == pack_master || mission == iramm)
     {
         mission = doom;
     }
 
-    for (i=0; i<arrlen(valid_versions); ++i) 
+    for (i=0; i<arrlen(valid_versions); ++i)
     {
-        if (valid_versions[i].mission == mission 
+        if (valid_versions[i].mission == mission
          && valid_versions[i].version == version)
         {
             return true;
@@ -183,6 +184,7 @@ boolean D_IsEpisodeMap(GameMission_t mission)
         case pack_nerve:
         case pack_master:
         case strife:
+        case iramm:
         default:
             return false;
     }
@@ -213,6 +215,8 @@ const char *D_GameMissionString(GameMission_t mission)
             return "hexen";
         case strife:
             return "strife";
+        case iramm:
+            return "iramm";
     }
 }
 
