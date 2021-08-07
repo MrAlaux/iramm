@@ -16,7 +16,7 @@
 
 #ifndef __M_CONTROLS_H__
 #define __M_CONTROLS_H__
- 
+
 extern int key_right;
 extern int key_left;
 extern int key_reverse;
@@ -35,9 +35,10 @@ extern int key_strafe;
 extern int key_speed;
 
 extern int key_jump;
+extern int key_crouch; // [IRamm]
 extern int key_toggleautorun;
 extern int key_togglenovert;
- 
+
 extern int key_flyup;
 extern int key_flydown;
 extern int key_flycenter;
