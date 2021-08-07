@@ -1,14 +1,13 @@
-AC_INIT(Crispy Doom, 5.10.1,
-        fabian@greffrath.com, crispy-doom)
+AC_INIT(IRamm, 0.3.11)
 
-PACKAGE_SHORTNAME=${PACKAGE_NAME% Doom}
-PACKAGE_SHORTDESC="Limit-removing enhanced-resolution Doom source port"
+PACKAGE_SHORTNAME=${PACKAGE_NAME%}
+PACKAGE_SHORTDESC="A fork of Crispy Doom for personal recreational purposes"
 PACKAGE_COPYRIGHT="Copyright (C) 1993-2021"
 PACKAGE_LICENSE="GNU General Public License, version 2"
-PACKAGE_MAINTAINER="Fabian Greffrath"
-PACKAGE_URL="http://fabiangreffrath.github.io/crispy-doom"
-PACKAGE_RDNS="io.github.fabiangreffrath"
-PACKAGE_BUGREPORT="https://github.com/fabiangreffrath/crispy-doom/issues"
+PACKAGE_MAINTAINER="Alaux"
+PACKAGE_URL="https://github.com/MrAlaux/iramm"
+PACKAGE_RDNS=""
+PACKAGE_BUGREPORT="https://github.com/MrAlaux/iramm/issues"
 
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_HOST
@@ -22,7 +21,7 @@ AC_CHECK_PROG(HAVE_PYTHON, python3, true, false)
 
 OPT_LEVEL=2
 
-# If this is gcc, we have some options we'd like to turn on.  Turn on 
+# If this is gcc, we have some options we'd like to turn on.  Turn on
 # optimisation and debugging symbols.
 
 if test "$GCC" = "yes"
