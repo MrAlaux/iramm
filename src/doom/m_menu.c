@@ -1595,7 +1595,7 @@ static void M_DrawCrispness4(void)
     dp_translation = NULL;
 }
 
-static void M_DrawCrispness5(void) M_Draw
+static void M_DrawCrispness5(void)
 {
     M_DrawCrispnessBackground();
 
