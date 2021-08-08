@@ -569,3 +569,11 @@ void M_CrispyToggleWidescreen(int choice)
 
     crispy->post_rendering_hook = M_CrispyToggleWidescreenHook;
 }
+
+// [IRamm]
+
+void M_IRammToggleViewheight(int choice)
+{
+    choice = 0;
+    crispy->viewheight = !crispy->viewheight;
+}

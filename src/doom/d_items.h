@@ -32,6 +32,7 @@ typedef struct
     int		downstate;
     int		readystate;
     int		atkstate;
+    int     holdstate; // [IRamm]
     int		flashstate;
 
 } weaponinfo_t;
