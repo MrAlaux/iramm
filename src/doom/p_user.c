@@ -442,9 +442,8 @@ void P_PlayerThink (player_t* player)
     }
 
     // [IRamm] Use crouching player sprites when crouching
-    if (player->mo->flags & MF_CROUCH) {
-    mo->state->sprite = SPR_PLYC;
-    }
+    if (player->mo->flags & MF_CROUCH)
+        {player->mo->state->sprite = SPR_PLYC;}
 
     // Check for weapon change.
 
