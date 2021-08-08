@@ -2482,110 +2482,110 @@ void A_Yell (mobj_t *actor)
 //    S_StartSound (actor, sound);
 //}
 
-void A_Flag (mobj_t* actor)
-{
-    mobjflag_t flag;
-
-    // [Ramm] Check for flag to toggle
-    if (actor->state->misc1 == 1)
-    {
-        flag = MF_SPECIAL;
-    }
-    else if (actor->state->misc1 == 2)
-    {
-        flag = MF_SOLID;
-    }
-    else if (actor->state->misc1 == 3)
-    {
-        flag = MF_SHOOTABLE;
-    }
-    else if (actor->state->misc1 == 4)
-    {
-        flag = MF_NOSECTOR;
-    }
-    else if (actor->state->misc1 == 5)
-    {
-        flag = MF_NOBLOCKMAP;
-    }
-    else if (actor->state->misc1 == 6)
-    {
-        flag = MF_AMBUSH;
-    }
-    else if (actor->state->misc1 == 7)
-    {
-        flag = MF_JUSTHIT;
-    }
-    else if (actor->state->misc1 == 8)
-    {
-        flag = MF_JUSTATTACKED;
-    }
-    else if (actor->state->misc1 == 9)
-    {
-        flag = MF_SPAWNCEILING;
-    }
-    else if (actor->state->misc1 == 10)
-    {
-        flag = MF_NOGRAVITY;
-    }
-    else if (actor->state->misc1 == 11)
-    {
-        flag = MF_DROPOFF;
-    }
-    else if (actor->state->misc1 == 12)
-    {
-        flag = MF_PICKUP;
-    }
-    else if (actor->state->misc1 == 13)
-    {
-        flag = MF_NOCLIP;
-    }
-    else if (actor->state->misc1 == 14)
-    {
-        flag = MF_SLIDE;
-    }
-    else if (actor->state->misc1 == 15)
-    {
-        flag = MF_FLOAT;
-    }
-    else if (actor->state->misc1 == 16)
-    {
-        flag = MF_TELEPORT;
-    }
-    else if (actor->state->misc1 == 17)
-    {
-        flag = MF_MISSILE;
-    }
-    else if (actor->state->misc1 == 18)
-    {
-        flag = MF_DROPPED;
-    }
-    else if (actor->state->misc1 == 19)
-    {
-        flag = MF_SHADOW;
-    }
-    else if (actor->state->misc1 == 20)
-    {
-        flag = MF_NOBLOOD;
-    }
-    else if (actor->state->misc1 == 21)
-    {
-        flag = MF_CORPSE;
-    }
-    else if (actor->state->misc1 == 22)
-    {
-        flag = MF_INFLOAT;
-    }
-
-    // [Ramm] Toggle the flag
-    if (actor->flags & flag)
-    {
-        actor->flags &= ~flag;
-    }
-    else
-    {
-            actor->flags |= flag;
-    }
-}
+//void A_Flag (mobj_t* actor)
+//{
+//    mobjflag_t flag;
+//
+//    // [IRamm] Check for flag to toggle
+//    if (actor->state->misc1 == 1)
+//    {
+//        flag = MF_SPECIAL;
+//    }
+//    else if (actor->state->misc1 == 2)
+//    {
+//        flag = MF_SOLID;
+//    }
+//    else if (actor->state->misc1 == 3)
+//    {
+//        flag = MF_SHOOTABLE;
+//    }
+//    else if (actor->state->misc1 == 4)
+//    {
+//        flag = MF_NOSECTOR;
+//    }
+//    else if (actor->state->misc1 == 5)
+//    {
+//        flag = MF_NOBLOCKMAP;
+//    }
+//    else if (actor->state->misc1 == 6)
+//    {
+//        flag = MF_AMBUSH;
+//    }
+//    else if (actor->state->misc1 == 7)
+//    {
+//        flag = MF_JUSTHIT;
+//    }
+//    else if (actor->state->misc1 == 8)
+//    {
+//        flag = MF_JUSTATTACKED;
+//    }
+//    else if (actor->state->misc1 == 9)
+//    {
+//        flag = MF_SPAWNCEILING;
+//    }
+//    else if (actor->state->misc1 == 10)
+//    {
+//        flag = MF_NOGRAVITY;
+//    }
+//    else if (actor->state->misc1 == 11)
+//    {
+//        flag = MF_DROPOFF;
+//    }
+//    else if (actor->state->misc1 == 12)
+//    {
+//        flag = MF_PICKUP;
+//    }
+//    else if (actor->state->misc1 == 13)
+//    {
+//        flag = MF_NOCLIP;
+//    }
+//    else if (actor->state->misc1 == 14)
+//    {
+//        flag = MF_SLIDE;
+//    }
+//    else if (actor->state->misc1 == 15)
+//    {
+//        flag = MF_FLOAT;
+//    }
+//    else if (actor->state->misc1 == 16)
+//    {
+//        flag = MF_TELEPORT;
+//    }
+//    else if (actor->state->misc1 == 17)
+//    {
+//        flag = MF_MISSILE;
+//    }
+//    else if (actor->state->misc1 == 18)
+//    {
+//        flag = MF_DROPPED;
+//    }
+//    else if (actor->state->misc1 == 19)
+//    {
+//        flag = MF_SHADOW;
+//    }
+//    else if (actor->state->misc1 == 20)
+//    {
+//        flag = MF_NOBLOOD;
+//    }
+//    else if (actor->state->misc1 == 21)
+//    {
+//        flag = MF_CORPSE;
+//    }
+//    else if (actor->state->misc1 == 22)
+//    {
+//        flag = MF_INFLOAT;
+//    }
+//
+//    // [Ramm] Toggle the flag
+//    if (actor->flags & flag)
+//    {
+//        actor->flags &= ~flag;
+//    }
+//    else
+//    {
+//            actor->flags |= flag;
+//    }
+//}
 
 //void A_SpawnPuff (mobj_t* actor)
 //{
