@@ -2290,6 +2290,14 @@ static default_t extra_defaults_list[] =
     //!
     // @game doom
     //
+    // Draw Crispness background.
+    //
+
+    CONFIG_VARIABLE_INT(iramm_nocrispnessbg),
+
+    //!
+    // @game doom
+    //
     // Viewheight adjustment.
     //
 
