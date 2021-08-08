@@ -62,6 +62,7 @@ typedef struct
 	int leveltime;
 	int mouselook;
 	int neghealth;
+	int nocrispnessbg; // [IRamm]
 	int overunder;
 	int pitch;
 	int playercoords;
