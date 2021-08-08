@@ -198,7 +198,7 @@ typedef enum
     MF_FLIPPABLE        = 0x40000000,
 
     // [crispy] translucent sprite
-    MF_TRANSLUCENT      = 0x80000000
+    MF_TRANSLUCENT      = 0x80000000,
 
     // [IRamm] mobj is crouching
     MF_CROUCH           = 0x10000000
