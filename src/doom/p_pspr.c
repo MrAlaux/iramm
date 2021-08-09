@@ -1059,7 +1059,7 @@ void P_MovePsprites (player_t* player)
 	player->psprites[ps_flash].sy2 = psp->sy2;
 }
 
-// [IRamm] The following are IRamm-specific functions.
+// [Nugget] The following are Nugget-specific functions.
 
 void P_FireHold (player_t* player)
 {

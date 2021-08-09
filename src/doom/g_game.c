@@ -575,7 +575,7 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
         }
     }
 
-    // [IRamm] crouch key (must add support for joystick)
+    // [Nugget] crouch key (must add support for joystick)
     if (critical->jump) {
         if (gamekeydown[key_crouch]) {
             if (cmd->arti & AFLAG_CROUCH)
@@ -1372,7 +1372,7 @@ void G_PlayerFinishLevel (int player)
     p->lookdir = p->oldlookdir =
     p->centering =
     p->jumpTics =
-    p->crouchTics = // [IRamm]
+    p->crouchTics = // [Nugget]
     p->recoilpitch = p->oldrecoilpitch =
     p->psp_dy_max =
     p->btuse = p->btuse_tics = 0;

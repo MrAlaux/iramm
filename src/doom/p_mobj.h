@@ -200,7 +200,7 @@ typedef enum
     // [crispy] translucent sprite
     MF_TRANSLUCENT      = 0x80000000,
 
-    // [IRamm] mobj is crouching
+    // [Nugget] mobj is crouching
     MF_CROUCH           = 0x10000000
 
 } mobjflag_t;

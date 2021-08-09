@@ -225,7 +225,7 @@ sfxinfo_t S_sfx[] =
   SOUND("punch",  64),
   SOUND("hoof",   70),
   SOUND("metal",  70),
-  SOUND("chgun", 64), // [IRamm] chgun is now an independent sfx
+  SOUND("chgun", 64), // [Nugget] chgun is now an independent sfx
   SOUND("tink",   60),
   SOUND("bdopn",  100),
   SOUND("bdcls",  100),
