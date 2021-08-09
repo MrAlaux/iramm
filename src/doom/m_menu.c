@@ -548,9 +548,12 @@ enum
     crispness_neghealth,
     crispness_sep_tactical_,
 
-    crispness_sep_iramm, // [IRamm]
-    crispness_viewheight,
-    crispness_sep_iramm_,
+    crispness_sep_crosshair,
+    crispness_crosshair,
+    crispness_crosshairtype,
+    crispness_crosshairhealth,
+    crispness_crosshairtarget,
+    crispness_sep_crosshair_,
 
     crispness3_next,
     crispness3_prev,
@@ -569,7 +572,10 @@ static menuitem_t Crispness3Menu[]=
     {1,"",	M_CrispyToggleNeghealth,'n'},
     {-1,"",0,'\0'},
     {-1,"",0,'\0'},
-    {1,"",	M_IRammToggleViewheight,'v'}, // [IRamm]
+    {1,"",	M_CrispyToggleCrosshair,'d'},
+    {1,"",	M_CrispyToggleCrosshairtype,'c'},
+    {1,"",	M_CrispyToggleCrosshairHealth,'c'},
+    {1,"",	M_CrispyToggleCrosshairTarget,'h'},
     {-1,"",0,'\0'},
     {1,"",	M_CrispnessNext,'n'},
     {1,"",	M_CrispnessPrev,'p'},
@@ -587,19 +593,19 @@ static menu_t  Crispness3Def =
 
 enum
 {
-    crispness_sep_crosshair,
-    crispness_crosshair,
-    crispness_crosshairtype,
-    crispness_crosshairhealth,
-    crispness_crosshairtarget,
-    crispness_sep_crosshair_,
-
     crispness_sep_physical,
     crispness_freeaim,
     crispness_jumping,
     crispness_overunder,
     crispness_recoil,
     crispness_sep_physical_,
+
+    crispness_sep_demos,
+    crispness_demotimer,
+    crispness_demotimerdir,
+    crispness_demobar,
+    crispness_demousetimer,
+    crispness_sep_demos_,
 
     crispness4_next,
     crispness4_prev,
@@ -610,16 +616,16 @@ enum
 static menuitem_t Crispness4Menu[]=
 {
     {-1,"",0,'\0'},
-    {1,"",	M_CrispyToggleCrosshair,'d'},
-    {1,"",	M_CrispyToggleCrosshairtype,'c'},
-    {1,"",	M_CrispyToggleCrosshairHealth,'c'},
-    {1,"",	M_CrispyToggleCrosshairTarget,'h'},
-    {-1,"",0,'\0'},
-    {-1,"",0,'\0'},
     {1,"",	M_CrispyToggleFreeaim,'v'},
     {1,"",	M_CrispyToggleJumping,'a'},
     {1,"",	M_CrispyToggleOverunder,'w'},
     {1,"",	M_CrispyToggleRecoil,'w'},
+    {-1,"",0,'\0'},
+    {-1,"",0,'\0'},
+    {1,"",	M_CrispyToggleDemoTimer,'v'},
+    {1,"",	M_CrispyToggleDemoTimerDir,'a'},
+    {1,"",	M_CrispyToggleDemoBar,'w'},
+    {1,"",	M_CrispyToggleDemoUseTimer,'u'},
     {-1,"",0,'\0'},
     {1,"",	M_CrispnessNext,'n'},
     {1,"",	M_CrispnessPrev,'p'},
@@ -637,26 +643,22 @@ static menu_t  Crispness4Def =
 
 enum
 {
-    crispness_sep_demos,
-    crispness_demotimer,
-    crispness_demotimerdir,
-    crispness_demobar,
-    crispness_demousetimer,
-    crispness_sep_demos_,
+    crispness_sep_iramm,
+    crispness_nocrispnessbg,
+    crispness_viewheight,
+    crispness_sep_iramm_,
 
     crispness5_next,
     crispness5_prev,
     crispness5_end
-} crispness5_e;
+} crispness5_e; // [IRamm]
 
 
-static menuitem_t Crispness5Menu[]=
+static menuitem_t Crispness5Menu[]= // [IRamm]
 {
     {-1,"",0,'\0'},
-    {1,"",	M_CrispyToggleDemoTimer,'v'},
-    {1,"",	M_CrispyToggleDemoTimerDir,'a'},
-    {1,"",	M_CrispyToggleDemoBar,'w'},
-    {1,"",	M_CrispyToggleDemoUseTimer,'u'},
+    {1,"",	M_IRammToggleCrispBackground(),'b'},
+    {1,"",	M_IRammToggleViewheight,'v'},
     {-1,"",0,'\0'},
     {1,"",	M_CrispnessNext,'n'},
     {1,"",	M_CrispnessPrev,'p'},
@@ -1433,6 +1435,9 @@ static void M_DrawCrispnessBackground(void)
 	pixel_t *dest;
 	int x, y;
 
+	if (crispy->nocrispnessbg)
+        {return;}
+
 	dest = I_VideoBuffer;
 
 	for (y = 0; y < SCREENHEIGHT; y++)
@@ -1551,6 +1556,7 @@ static void M_DrawCrispness3(void)
     M_DrawCrispnessHeader("Crispness 3/5");
 
     M_DrawCrispnessSeparator(crispness_sep_tactical, "Tactical");
+
     M_DrawCrispnessMultiItem(crispness_freelook, "Allow Free Look", multiitem_freelook, crispy->freelook, true);
     M_DrawCrispnessItem(crispness_mouselook, "Permanent Mouse Look", crispy->mouselook, true);
     M_DrawCrispnessMultiItem(crispness_bobfactor, "Player View/Weapon Bobbing", multiitem_bobfactor, crispy->bobfactor, true);
@@ -1560,8 +1566,12 @@ static void M_DrawCrispness3(void)
     M_DrawCrispnessItem(crispness_neghealth, "Negative Player Health", crispy->neghealth, true);
 //  M_DrawCrispnessItem(crispness_extsaveg, "Extended Savegames", crispy->extsaveg, true);
 
-    M_DrawCrispnessSeparator(crispness_sep_iramm, "IRamm"); // [IRamm]
-    M_DrawCrispnessItem(crispness_viewheight, "Adjust view height", crispy->viewheight, true);
+    M_DrawCrispnessSeparator(crispness_sep_crosshair, "Crosshair");
+
+    M_DrawCrispnessMultiItem(crispness_crosshair, "Draw Crosshair", multiitem_crosshair, crispy->crosshair, true);
+    M_DrawCrispnessMultiItem(crispness_crosshairtype, "Crosshair Shape", multiitem_crosshairtype, crispy->crosshairtype + 1, crispy->crosshair);
+    M_DrawCrispnessItem(crispness_crosshairhealth, "Color indicates Health", crispy->crosshairhealth, crispy->crosshair);
+    M_DrawCrispnessItem(crispness_crosshairtarget, "Highlight on target", crispy->crosshairtarget, crispy->crosshair);
 
     M_DrawCrispnessGoto(crispness3_next, "Next Page >");
     M_DrawCrispnessGoto(crispness3_prev, "< Prev Page");
@@ -1575,19 +1585,19 @@ static void M_DrawCrispness4(void)
 
     M_DrawCrispnessHeader("Crispness 4/5");
 
-    M_DrawCrispnessSeparator(crispness_sep_crosshair, "Crosshair");
-
-    M_DrawCrispnessMultiItem(crispness_crosshair, "Draw Crosshair", multiitem_crosshair, crispy->crosshair, true);
-    M_DrawCrispnessMultiItem(crispness_crosshairtype, "Crosshair Shape", multiitem_crosshairtype, crispy->crosshairtype + 1, crispy->crosshair);
-    M_DrawCrispnessItem(crispness_crosshairhealth, "Color indicates Health", crispy->crosshairhealth, crispy->crosshair);
-    M_DrawCrispnessItem(crispness_crosshairtarget, "Highlight on target", crispy->crosshairtarget, crispy->crosshair);
-
     M_DrawCrispnessSeparator(crispness_sep_physical, "Physical");
 
     M_DrawCrispnessMultiItem(crispness_freeaim, "Vertical Aiming", multiitem_freeaim, crispy->freeaim, crispy->singleplayer);
-    M_DrawCrispnessMultiItem(crispness_jumping, "Allow Jump/Crouch", multiitem_jump, crispy->jump, crispy->singleplayer);
+    M_DrawCrispnessMultiItem(crispness_jumping, "Allow Jumping", multiitem_jump, crispy->jump, crispy->singleplayer);
     M_DrawCrispnessItem(crispness_overunder, "Walk over/under Monsters", crispy->overunder, crispy->singleplayer);
     M_DrawCrispnessItem(crispness_recoil, "Weapon Recoil Thrust", crispy->recoil, crispy->singleplayer);
+
+    M_DrawCrispnessSeparator(crispness_sep_demos, "Demos");
+
+    M_DrawCrispnessMultiItem(crispness_demotimer, "Show Demo Timer", multiitem_demotimer, crispy->demotimer, true);
+    M_DrawCrispnessMultiItem(crispness_demotimerdir, "Playback Timer Direction", multiitem_demotimerdir, crispy->demotimerdir + 1, crispy->demotimer & DEMOTIMER_PLAYBACK);
+    M_DrawCrispnessItem(crispness_demobar, "Show Demo Progress Bar", crispy->demobar, true);
+    M_DrawCrispnessItem(crispness_demousetimer, "\"Use\" Button Timer", crispy->btusetimer, true);
 
     M_DrawCrispnessGoto(crispness4_next, "Next Page >");
     M_DrawCrispnessGoto(crispness4_prev, "< Prev Page");
@@ -1601,12 +1611,9 @@ static void M_DrawCrispness5(void)
 
     M_DrawCrispnessHeader("Crispness 5/5");
 
-    M_DrawCrispnessSeparator(crispness_sep_demos, "Demos");
-
-    M_DrawCrispnessMultiItem(crispness_demotimer, "Show Demo Timer", multiitem_demotimer, crispy->demotimer, true);
-    M_DrawCrispnessMultiItem(crispness_demotimerdir, "Playback Timer Direction", multiitem_demotimerdir, crispy->demotimerdir + 1, crispy->demotimer & DEMOTIMER_PLAYBACK);
-    M_DrawCrispnessItem(crispness_demobar, "Show Demo Progress Bar", crispy->demobar, true);
-    M_DrawCrispnessItem(crispness_demousetimer, "\"Use\" Button Timer", crispy->btusetimer, true);
+    M_DrawCrispnessSeparator(crispness_sep_iramm, "IRamm"); // [IRamm]
+    M_DrawCrispnessItem(crispness_nocrispnessbg, "Crisp Background", crispy->nocrispnessbg, true);
+    M_DrawCrispnessItem(crispness_viewheight, "Adjust view height", crispy->viewheight, true);
 
     M_DrawCrispnessGoto(crispness5_next, "First Page >");
     M_DrawCrispnessGoto(crispness5_prev, "< Prev Page");
