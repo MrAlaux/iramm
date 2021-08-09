@@ -215,8 +215,6 @@ const char *D_GameMissionString(GameMission_t mission)
             return "hexen";
         case strife:
             return "strife";
-        case iramm:
-            return "iramm";
     }
 }
 

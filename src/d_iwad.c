@@ -48,7 +48,6 @@ static const iwad_t iwads[] =
     { "hexen.wad",    hexen,     commercial, "Hexen" },
     //{ "strife0.wad",  strife,    commercial, "Strife" }, // haleyjd: STRIFE-FIXME
     { "strife1.wad",  strife,    commercial, "Strife" },
-    { "iramm.wad",    iramm,     commercial,  "IRamm" },
 };
 
 boolean D_IsIWADName(const char *name)
