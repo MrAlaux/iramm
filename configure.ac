@@ -1,13 +1,13 @@
-AC_INIT(IRamm, 0.3.12)
+AC_INIT(Nugget Doom, 0.3.13)
 
 PACKAGE_SHORTNAME=${PACKAGE_NAME%}
 PACKAGE_SHORTDESC="A fork of Crispy Doom for personal recreational purposes"
 PACKAGE_COPYRIGHT="Copyright (C) 1993-2021"
 PACKAGE_LICENSE="GNU General Public License, version 2"
 PACKAGE_MAINTAINER="Alaux"
-PACKAGE_URL="https://github.com/MrAlaux/iramm"
+PACKAGE_URL="https://github.com/MrAlaux/Nugget-Doom"
 PACKAGE_RDNS=""
-PACKAGE_BUGREPORT="https://github.com/MrAlaux/iramm/issues"
+PACKAGE_BUGREPORT="https://github.com/MrAlaux/Nugget-Doom"
 
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_HOST
