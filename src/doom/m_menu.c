@@ -1612,7 +1612,7 @@ static void M_DrawCrispness5(void)
     M_DrawCrispnessHeader("Crispness 5/5");
 
     M_DrawCrispnessSeparator(crispness_sep_iramm, "IRamm"); // [IRamm]
-    M_DrawCrispnessItem(crispness_nocrispnessbg, "Crisp Background", crispy->nocrispnessbg, true);
+    M_DrawCrispnessItem(crispness_nocrispnessbg, "No Crisp Background", crispy->nocrispnessbg, true);
     M_DrawCrispnessItem(crispness_viewheight, "Adjust view height", crispy->viewheight, true);
 
     M_DrawCrispnessGoto(crispness5_next, "First Page >");
