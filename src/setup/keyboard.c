@@ -475,8 +475,8 @@ void ConfigKeyboard(TXT_UNCAST_ARG(widget), void *user_data)
         AddKeyControl(window, "Jump [*]", &key_jump);
     }
 
-    TXT_AddWidget(window, TXT_TABLE_EMPTY); // [IRamm]
-    AddKeyControl(window, "Crouch", &key_crouch); // [IRamm]
+    TXT_AddWidget(window, TXT_TABLE_EMPTY); // [Nugget]
+    AddKeyControl(window, "Crouch", &key_crouch); // [Nugget]
 
     TXT_AddWidget(window, TXT_NewSeparator("Action"));
     AddKeyControl(window, "Fire/Attack", &key_fire);
