@@ -4,7 +4,7 @@ IRamm is a fork of [Crispy Doom](https://www.chocolate-doom.org/wiki/index.php/C
 
 ### Features (with default bindings if applicable)
 
- * Crouch/duck <kbd>C</kbd>
+ * Crouch/duck (<kbd>C</kbd>)
  * A setting to adjust the player's POV's height closer to the Doom marine's helmet
  * A couple new action functions
 
