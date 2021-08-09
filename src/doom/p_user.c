@@ -96,7 +96,7 @@ void P_CalcHeight (player_t* player)
     // [crispy] variable player view bob
     player->bob2 = crispy_bobfactor[crispy->bobfactor] * player->bob / 4;
 
-    if (crispy->viewheight) { // [IRamm] Check for viewheight setting
+    if (crispy->viewheight) { // [Nugget] Check for viewheight setting
         if (player->mo->flags & MF_CROUCH) {view = ALTCVIEWHEIGHT;}
         else {view = ALTVIEWHEIGHT;}
     }
@@ -140,7 +140,7 @@ void P_CalcHeight (player_t* player)
 		player->deltaviewheight = 1;
 	}
 
-	// [IRamm] Check if player just stood up
+	// [Nugget] Check if player just stood up
 	if (!(player->mo->flags & MF_CROUCH) && player->crouchTics) {
         player->viewheight -= player->mo->floorz - player->mo->z;
         player->deltaviewheight = (view - player->viewheight)>>3;
@@ -181,7 +181,7 @@ void P_MovePlayer (player_t* player)
     onground |= (player->mo->flags & MF_NOCLIP);
 
     move = 2048;
-    if (player->mo->flags & MF_CROUCH) {move /= 2;} // [IRamm] Check for crouching
+    if (player->mo->flags & MF_CROUCH) {move /= 2;} // [Nugget] Check for crouching
 
     if (cmd->forwardmove && onground)
 	P_Thrust (player, player->mo->angle, cmd->forwardmove*move);
@@ -379,7 +379,7 @@ void P_PlayerThink (player_t* player)
         player->jumpTics--;
     }
 
-    // [IRamm] Just like jumping; delay crouching
+    // [Nugget] Just like jumping; delay crouching
     if (player->crouchTics) {player->crouchTics--;}
 
     // Move around.
@@ -402,9 +402,9 @@ void P_PlayerThink (player_t* player)
             && !(player->jumpTics) && !(player->crouchTics))
         {
             if (player->mo->flags & MF_CROUCH) {
-                // [IRamm] Check if ceiling's high enough to stand up.
+                // [Nugget] Check if ceiling's high enough to stand up.
                 if ((player->mo->ceilingz - player->mo->floorz)
-                    >= (player->mo->height)) { // [IRamm] Stand up
+                    >= (player->mo->height)) { // [Nugget] Stand up
                     player->mo->flags &= ~MF_CROUCH;
                     player->mo->height = player->mo->height * 2;
                     player->crouchTics = 18;
@@ -422,18 +422,18 @@ void P_PlayerThink (player_t* player)
                 }
             }
         }
-        // [IRamm] Crouching
+        // [Nugget] Crouching
         else if (cmd->arti & AFLAG_CROUCH && !player->crouchTics) {
             if (player->mo->flags & MF_CROUCH) {
-                // [IRamm] Check if ceiling's high enough to stand up.
+                // [Nugget] Check if ceiling's high enough to stand up.
                 if ((player->mo->ceilingz - player->mo->floorz)
-                    >= (player->mo->height)) { // [IRamm] Stand up
+                    >= (player->mo->height)) { // [Nugget] Stand up
                     player->mo->flags &= ~MF_CROUCH;
                     player->mo->height = player->mo->height * 2;
                     player->crouchTics = 18;
                 }
             }
-            else { // [IRamm] Crouch
+            else { // [Nugget] Crouch
                 player->mo->flags |= MF_CROUCH;
                 player->mo->height = player->mo->height / 2;
                 player->crouchTics = 18;
@@ -441,7 +441,7 @@ void P_PlayerThink (player_t* player)
         }
     }
 
-    // [IRamm] Use crouching player sprites when crouching
+    // [Nugget] Use crouching player sprites when crouching
     if (player->mo->flags & MF_CROUCH)
         {player->mo->state->sprite = SPR_PLYC;}
 

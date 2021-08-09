@@ -2135,7 +2135,7 @@ void A_PlayerScream (mobj_t* mo)
     S_StartSound (mo, sound);
 }
 
-// [IRamm] Now follow IRamm functions - - - - -
+// [Nugget] Now follow Nugget functions - - - - -
 
 //void A_BruisAttack1 (mobj_t* actor)
 //{
@@ -2486,7 +2486,7 @@ void A_Yell (mobj_t *actor)
 //{
 //    mobjflag_t flag;
 //
-//    // [IRamm] Check for flag to toggle
+//    // [Nugget] Check for flag to toggle
 //    if (actor->state->misc1 == 1)
 //    {
 //        flag = MF_SPECIAL;
