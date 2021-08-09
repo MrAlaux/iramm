@@ -1,6 +1,6 @@
-# IRamm
+# Nugget Doom
 
-IRamm is a fork of [Crispy Doom](https://www.chocolate-doom.org/wiki/index.php/Crispy_Doom), essentially intended as a personal playground to mess around with Doom's source code.
+Nugget Doom (formerly known as IRamm) is a fork of [Crispy Doom](https://www.chocolate-doom.org/wiki/index.php/Crispy_Doom), essentially intended as a personal playground to mess around with Doom's source code.
 
 ### Features (with default bindings if applicable)
 
@@ -14,9 +14,9 @@ As a Crispy Doom fork, itself a Chocolate Doom fork, their build instructions sh
 
 ### Contact
 
-The homepage for IRamm is https://github.com/MrAlaux/iramm
+The homepage for Nugget Doom is https://github.com/MrAlaux/Nugget-Doom
 
-Please report any bugs, glitches or crashes that you encounter to the GitHub [Issue Tracker](https://github.com/MrAlaux/iramm/issues).
+Please report any bugs, glitches or crashes that you encounter to the GitHub [Issue Tracker](https://github.com/MrAlaux/Nugget-Doom/issues).
 
 ### Acknowledgement
 
