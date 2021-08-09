@@ -6,11 +6,11 @@ IRamm is a fork of [Crispy Doom](https://www.chocolate-doom.org/wiki/index.php/C
 
  * Crouch/duck (<kbd>C</kbd>)
  * A setting to adjust the player's POV's height closer to the Doom marine's helmet
- * A couple new action functions
+ * A setting to disable the crisp background in the Crispness menu
 
 ### Building
 
-As a Crispy Doom fork, itself a Chocolate Doom fork, their build instructions should also apply here: [Crispy Doom](https://github.com/fabiangreffrath/crispy-doom/wiki/Building-on-Windows); [Chocolate Doom](https://www.chocolate-doom.org/wiki/index.php/Building_Chocolate_Doom_on_Windows)
+As a Crispy Doom fork, itself a Chocolate Doom fork, their build instructions should also apply here: [Crispy Doom](https://github.com/fabiangreffrath/crispy-doom/wiki/Building-on-Windows); [Chocolate Doom](https://www.chocolate-doom.org/wiki/index.php/Building_Chocolate_Doom_on_Windows).
 
 ### Contact
 
