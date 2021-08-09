@@ -572,6 +572,12 @@ void M_CrispyToggleWidescreen(int choice)
 
 // [IRamm]
 
+void M_IRammToggleCrispBackground(int choice)
+{
+    choice = 0;
+    crispy->nocrispnessbg = !crispy->nocrispnessbg;
+}
+
 void M_IRammToggleViewheight(int choice)
 {
     choice = 0;
