@@ -176,7 +176,7 @@ typedef struct player_s
     // [crispy] jumping
     unsigned int	jumpTics;
 
-    // [IRamm] crouching delay
+    // [Nugget] crouching delay
     fixed_t	        crouchTics;
 
     // [crispy] weapon recoil pitch

@@ -309,7 +309,7 @@ void P_ZMovement (mobj_t* mo)
     {
         mo->player->viewheight -= mo->floorz-mo->z;
 
-        if (mo->player->mo->flags & MF_CROUCH) // [IRamm] Check for crouching
+        if (mo->player->mo->flags & MF_CROUCH) // [Nugget] Check for crouching
         {   mo->player->deltaviewheight
             = (CVIEWHEIGHT - mo->player->viewheight)>>3;}
         else

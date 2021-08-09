@@ -32,7 +32,7 @@
 //  downstate
 // readystate
 // atkstate, i.e. attack/fire/hit frame
-// [IRamm] holdstate, for use with A_Hold
+// [Nugget] holdstate, for use with A_Hold
 // flashstate, muzzle flash
 //
 weaponinfo_t	weaponinfo[NUMWEAPONS] =
