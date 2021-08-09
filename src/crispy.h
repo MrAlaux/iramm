@@ -62,7 +62,7 @@ typedef struct
 	int leveltime;
 	int mouselook;
 	int neghealth;
-	int nocrispnessbg; // [IRamm]
+	int nocrispnessbg; // [Nugget]
 	int overunder;
 	int pitch;
 	int playercoords;
@@ -79,7 +79,7 @@ typedef struct
 	int truecolor;
 #endif
 	int uncapped;
-	int viewheight; // [IRamm]
+	int viewheight; // [Nugget]
 	int vsync;
 	int weaponsquat;
 	int widescreen;

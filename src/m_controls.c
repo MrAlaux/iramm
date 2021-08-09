@@ -44,7 +44,7 @@ int key_strafe = KEY_RALT;
 int key_speed = KEY_RSHIFT;
 int key_toggleautorun = KEY_CAPSLOCK; // [crispy]
 int key_togglenovert = 0; // [crispy]
-int key_crouch = 'c'; // [IRamm]
+int key_crouch = 'c'; // [Nugget]
 
 //
 // Heretic keyboard controls
@@ -282,7 +282,7 @@ void M_BindBaseControls(void)
     M_BindIntVariable("key_lookcenter",     &key_lookcenter); // [crispy]
 
     M_BindIntVariable("key_jump",           &key_jump); // [crispy]
-    M_BindIntVariable("key_crouch",         &key_crouch); // [IRamm]
+    M_BindIntVariable("key_crouch",         &key_crouch); // [Nugget]
     M_BindIntVariable("mouseb_jump",        &mousebjump); // [crispy]
     M_BindIntVariable("joyb_jump",          &joybjump); // [crispy]
 

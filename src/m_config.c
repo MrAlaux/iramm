@@ -242,7 +242,7 @@ static default_t	doom_defaults_list[] =
     CONFIG_VARIABLE_KEY(key_alt_straferight),
 
     //!
-    // [IRamm] Keyboard key to crouch.
+    // [Nugget] Keyboard key to crouch.
     //
 
     CONFIG_VARIABLE_KEY(key_crouch),
@@ -2285,7 +2285,7 @@ static default_t extra_defaults_list[] =
 
     CONFIG_VARIABLE_INT(crispy_widescreen),
 
-    // [IRamm] IRamm variables
+    // [Nugget] Nugget variables
 
     //!
     // @game doom
@@ -2293,7 +2293,7 @@ static default_t extra_defaults_list[] =
     // Draw Crispness background.
     //
 
-    CONFIG_VARIABLE_INT(iramm_nocrispnessbg),
+    CONFIG_VARIABLE_INT(nugget_nocrispnessbg),
 
     //!
     // @game doom
@@ -2301,7 +2301,7 @@ static default_t extra_defaults_list[] =
     // Viewheight adjustment.
     //
 
-    CONFIG_VARIABLE_INT(iramm_viewheight),
+    CONFIG_VARIABLE_INT(nugget_viewheight),
 
 };
 
