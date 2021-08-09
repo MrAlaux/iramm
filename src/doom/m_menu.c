@@ -249,7 +249,7 @@ static void M_DrawCrispness1(void);
 static void M_DrawCrispness2(void);
 static void M_DrawCrispness3(void);
 static void M_DrawCrispness4(void);
-static void M_DrawCrispness5(void); // [IRamm]
+static void M_DrawCrispness5(void); // [Nugget]
 
 
 
@@ -643,22 +643,22 @@ static menu_t  Crispness4Def =
 
 enum
 {
-    crispness_sep_iramm,
+    crispness_sep_nugget,
     crispness_nocrispnessbg,
     crispness_viewheight,
-    crispness_sep_iramm_,
+    crispness_sep_nugget_,
 
     crispness5_next,
     crispness5_prev,
     crispness5_end
-} crispness5_e; // [IRamm]
+} crispness5_e; // [Nugget]
 
 
-static menuitem_t Crispness5Menu[]= // [IRamm]
+static menuitem_t Crispness5Menu[]= // [Nugget]
 {
     {-1,"",0,'\0'},
-    {1,"",	M_IRammToggleCrispBackground,'b'},
-    {1,"",	M_IRammToggleViewheight,'v'},
+    {1,"",	M_NuggetToggleCrispBackground,'b'},
+    {1,"",	M_NuggetToggleViewheight,'v'},
     {-1,"",0,'\0'},
     {1,"",	M_CrispnessNext,'n'},
     {1,"",	M_CrispnessPrev,'p'},
@@ -680,7 +680,7 @@ static menu_t *CrispnessMenus[] =
 	&Crispness2Def,
 	&Crispness3Def,
 	&Crispness4Def,
-	&Crispness5Def, // [IRamm]
+	&Crispness5Def, // [Nugget]
 };
 
 static int crispness_cur;
@@ -1611,7 +1611,7 @@ static void M_DrawCrispness5(void)
 
     M_DrawCrispnessHeader("Crispness 5/5");
 
-    M_DrawCrispnessSeparator(crispness_sep_iramm, "IRamm"); // [IRamm]
+    M_DrawCrispnessSeparator(crispness_sep_nugget, "Nugget"); // [Nugget]
     M_DrawCrispnessItem(crispness_nocrispnessbg, "No Crisp Background", crispy->nocrispnessbg, true);
     M_DrawCrispnessItem(crispness_viewheight, "Adjust view height", crispy->viewheight, true);
 
@@ -2812,7 +2812,7 @@ boolean M_Responder (event_t* ev)
 	}
     }
     // [crispy] next/prev Crispness menu
-    else if (key == KEY_PGUP) // [IRamm] Add arrow support?
+    else if (key == KEY_PGUP) // [Nugget] Add arrow support?
     {
 	currentMenu->lastOn = itemOn;
 	if (currentMenu == CrispnessMenus[crispness_cur])
@@ -2822,7 +2822,7 @@ boolean M_Responder (event_t* ev)
 	    return true;
 	}
     }
-    else if (key == KEY_PGDN) // [IRamm] Add arrow support?
+    else if (key == KEY_PGDN) // [Nugget] Add arrow support?
     {
 	currentMenu->lastOn = itemOn;
 	if (currentMenu == CrispnessMenus[crispness_cur])

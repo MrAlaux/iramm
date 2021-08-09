@@ -85,7 +85,7 @@ extern void M_CrispyToggleVsync(int choice);
 extern void M_CrispyToggleWeaponSquat(int choice);
 extern void M_CrispyToggleWidescreen(int choice);
 
-// [IRamm]
-extern void M_IRammToggleCrispBackground(int choice);
-extern void M_IRammToggleViewheight(int choice);
+// [Nugget]
+extern void M_NuggetToggleCrispBackground(int choice);
+extern void M_NuggetToggleViewheight(int choice);
 #endif

@@ -476,9 +476,9 @@ void D_BindVariables(void)
     M_BindIntVariable("crispy_weaponsquat",     &crispy->weaponsquat);
     M_BindIntVariable("crispy_widescreen",      &crispy->widescreen);
 
-    // [IRamm] Bind IRamm variables
-    M_BindIntVariable("iramm_nocrispnessbg",    &crispy->nocrispnessbg);
-    M_BindIntVariable("iramm_viewheight",       &crispy->viewheight);
+    // [Nugget] Bind Nugget variables
+    M_BindIntVariable("nugget_nocrispnessbg",    &crispy->nocrispnessbg);
+    M_BindIntVariable("nugget_viewheight",       &crispy->viewheight);
 }
 
 //
