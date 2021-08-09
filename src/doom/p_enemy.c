@@ -869,7 +869,8 @@ void A_CPosAttack (mobj_t* actor)
     if (!actor->target)
 	return;
 
-    S_StartSound (actor, sfx_shotgn);
+	if (crispy->soundfix) {S_StartSound (actor, sfx_pistol);} // [Nugget]
+	else {S_StartSound (actor, sfx_shotgn);}
     A_FaceTarget (actor);
     bangle = actor->angle;
     slope = P_AimLineAttack (actor, bangle, MISSILERANGE);
