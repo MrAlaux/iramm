@@ -657,7 +657,7 @@ enum
 static menuitem_t Crispness5Menu[]= // [IRamm]
 {
     {-1,"",0,'\0'},
-    {1,"",	M_IRammToggleCrispBackground(),'b'},
+    {1,"",	M_IRammToggleCrispBackground,'b'},
     {1,"",	M_IRammToggleViewheight,'v'},
     {-1,"",0,'\0'},
     {1,"",	M_CrispnessNext,'n'},
