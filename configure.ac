@@ -1,4 +1,4 @@
-AC_INIT(IRamm, 0.3.11)
+AC_INIT(IRamm, 0.3.12)
 
 PACKAGE_SHORTNAME=${PACKAGE_NAME%}
 PACKAGE_SHORTDESC="A fork of Crispy Doom for personal recreational purposes"
