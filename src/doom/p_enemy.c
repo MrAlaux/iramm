@@ -38,6 +38,8 @@
 // Data.
 #include "sounds.h"
 
+#include "w_wad.h" // [Nugget] W_CheckNumForName
+
 
 
 
@@ -868,8 +870,14 @@ void A_CPosAttack (mobj_t* actor)
 
     if (!actor->target) {return;}
 
-	if (crispy->soundfix) {S_StartSound (actor, sfx_pistol);} // [Nugget]
+	if (crispy->soundfix) { // [Nugget]
+        if (W_CheckNumForName("dschgun") >= 0)
+            {S_StartSound (actor, sfx_chgun);}
+        else
+            {S_StartSound (actor, sfx_pistol);}
+    }
 	else {S_StartSound (actor, sfx_shotgn);}
+
     A_FaceTarget (actor);
     bangle = actor->angle;
     slope = P_AimLineAttack (actor, bangle, MISSILERANGE);
