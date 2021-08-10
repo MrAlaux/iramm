@@ -4,9 +4,11 @@ Nugget Doom (formerly known as IRamm) is a fork of [Crispy Doom](https://www.cho
 
 ### Features (with default bindings if applicable)
 
- * Crouch/duck (<kbd>C</kbd>)
- * A setting to adjust the player's POV's height closer to the Doom marine's helmet
+ * Crouching/ducking (<kbd>C</kbd>)
+ * A setting to adjust the player's POV closer to Doomguy's helmet
  * A setting to disable the crisp background in the Crispness menu
+ * Crispy's 'Misc. Sound Fixes' setting now makes A_CPosAttack use the Pistol sound effect
+ * Support for a DSCHGUN lump: if provided, it will be used for A_FireCGun, and for A_CPosAttack only if the above mentioned setting is enabled.
 
 ### Building
 
