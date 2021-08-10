@@ -29,6 +29,7 @@
 
 #include "doomstat.h"
 #include "a11y.h" // [crispy] A11Y
+#include "w_wad.h" // [Nugget] W_CheckNumForName
 
 
 
@@ -442,8 +443,11 @@ void P_PlayerThink (player_t* player)
     }
 
     // [Nugget] Use crouching player sprites when crouching
-    if (player->mo->flags & MF_CROUCH)
-        {player->mo->state->sprite = SPR_PLYC;}
+    if (player->mo->flags & MF_CROUCH) {
+        if ((W_CheckNumForName("PLYCA1") ||
+            W_CheckNumForName("PLYCA1C1")) >= 0)
+            {player->mo->state->sprite = SPR_PLYC;}
+        }
 
     // Check for weapon change.
 
