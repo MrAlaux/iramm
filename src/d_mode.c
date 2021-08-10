@@ -45,7 +45,6 @@ static struct
     { heretic,   retail,     5, 9 },
     { hexen,     commercial, 1, 60 },
     { strife,    commercial, 1, 34 },
-    { iramm,     commercial, 1, 32 },
 };
 
 // Check that a gamemode+gamemission received over the network is valid.
@@ -147,7 +146,7 @@ boolean D_ValidGameVersion(GameMission_t mission, GameVersion_t version)
 
     if (mission == doom2 || mission == pack_plut || mission == pack_tnt
      || mission == pack_hacx || mission == pack_chex
-     || mission == pack_nerve || mission == pack_master || mission == iramm)
+     || mission == pack_nerve || mission == pack_master)
     {
         mission = doom;
     }
@@ -184,7 +183,6 @@ boolean D_IsEpisodeMap(GameMission_t mission)
         case pack_nerve:
         case pack_master:
         case strife:
-        case iramm:
         default:
             return false;
     }
