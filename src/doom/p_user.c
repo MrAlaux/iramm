@@ -444,8 +444,8 @@ void P_PlayerThink (player_t* player)
 
     // [Nugget] Use crouching player sprites when crouching
     if (player->mo->flags & MF_CROUCH) {
-        if ((W_CheckNumForName("PLYCA1") ||
-            W_CheckNumForName("PLYCA1C1")) >= 0)
+        if (W_CheckNumForName("PLYCA1") >= 0 ||
+            W_CheckNumForName("PLYCA1C1") >= 0)
             {player->mo->state->sprite = SPR_PLYC;}
         }
 
