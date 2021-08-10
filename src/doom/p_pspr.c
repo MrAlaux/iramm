@@ -35,6 +35,7 @@
 
 #include "p_pspr.h"
 #include "a11y.h" // [crispy] A11Y
+#include "w_wad.h" // [Nugget] W_CheckNumForName
 
 #define LOWERSPEED		FRACUNIT*6
 #define RAISESPEED		FRACUNIT*6
@@ -857,7 +858,11 @@ A_FireCGun
   pspdef_t*	psp )
 {
     if (!player) return; // [crispy] let pspr action pointers get called from mobj states
-    S_StartSound (player->so, sfx_pistol); // [crispy] weapon sound source
+
+    if (W_CheckNumForName("dschgun") >= 0) // [Nugget] use DSCHGUN if available
+        {S_StartSound (player->so, sfx_chgun);} // [crispy] weapon sound source
+    else
+        {S_StartSound (player->so, sfx_pistol);} // [crispy] weapon sound source
 
     if (!player->ammo[weaponinfo[player->readyweapon].ammo])
 	return;
