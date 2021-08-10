@@ -866,8 +866,7 @@ void A_CPosAttack (mobj_t* actor)
     int		damage;
     int		slope;
 
-    if (!actor->target)
-	return;
+    if (!actor->target) {return;}
 
 	if (crispy->soundfix) {S_StartSound (actor, sfx_pistol);} // [Nugget]
 	else {S_StartSound (actor, sfx_shotgn);}
