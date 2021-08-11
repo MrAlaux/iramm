@@ -775,7 +775,9 @@ P_KillMobj
     if ((target->health < -target->info->spawnhealth
         && target->info->xdeathstate)
         || // [Nugget] Chainsaw/SSG gibbing
-        (crispy->extragibbing && source->player && !(demorecording || demoplayback)
+        (crispy->extragibbing && source->player
+         && !(demorecording || demoplayback)
+         && target->info->xdeathstate
             &&
             ((source->player->readyweapon == wp_chainsaw)
             ||
