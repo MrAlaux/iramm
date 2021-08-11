@@ -470,7 +470,7 @@ void P_PlayerThink (player_t* player)
         newweapon = wp_chainsaw;
         // [Nugget] Allow Unpowered Fist/Chainsaw switch
         if (crispy->fistswitch && !(demorecording || demoplayback))
-            {newweapon == wp_fist;}
+            {newweapon = wp_fist;}
 	}
 
 	if ( (crispy->havessg)
