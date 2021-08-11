@@ -410,7 +410,8 @@ void P_PlayerThink (player_t* player)
             if (player->mo->flags & MF_CROUCH) {
                 // [Nugget] Check if ceiling's high enough to stand up.
                 if ((player->mo->ceilingz - player->mo->floorz)
-                    >= (player->mo->height * 2)) { // [Nugget] Stand up
+                    >= (player->mo->height * 2))
+                { // [Nugget] Stand up
                     player->mo->flags &= ~MF_CROUCH;
                     player->mo->height *= 2;
                     player->crouchTics = 18;
@@ -433,7 +434,8 @@ void P_PlayerThink (player_t* player)
             if (player->mo->flags & MF_CROUCH) {
                 // [Nugget] Check if ceiling's high enough to stand up.
                 if ((player->mo->ceilingz - player->mo->floorz)
-                    >= (player->mo->height * 2)) { // [Nugget] Stand up
+                    >= (player->mo->height * 2))
+                { // [Nugget] Stand up
                     player->mo->flags &= ~MF_CROUCH;
                     player->mo->height *= 2;
                     player->crouchTics = 18;
@@ -453,6 +455,18 @@ void P_PlayerThink (player_t* player)
             W_CheckNumForName("PLYCA1C1") >= 0)
             {player->mo->state->sprite = SPR_PLYC;}
         }
+
+    // [Nugget] Forcefully stand up if the jump/crouch setting is off
+    if (!crispy->jump && player->mo->flags & MF_CROUCH)
+    {
+        if ((player->mo->ceilingz - player->mo->floorz)
+            >= (player->mo->height * 2))
+        { // [Nugget] Stand up
+            player->mo->flags &= ~MF_CROUCH;
+            player->mo->height *= 2;
+            player->crouchTics = 18;
+        }
+    }
 
     // Check for weapon change.
 
