@@ -462,14 +462,15 @@ void P_PlayerThink (player_t* player)
 	//  (read: not in the middle of an attack).
 	newweapon = (cmd->buttons&BT_WEAPONMASK)>>BT_WEAPONSHIFT;
 
-	if (!crispy->fistswitch) { // [Nugget] Allow Unpowered Fist/Chainsaw switch
-        if (newweapon == wp_fist
-            && player->weaponowned[wp_chainsaw]
-            && !(player->readyweapon == wp_chainsaw
-            && player->powers[pw_strength]))
-        {
-            newweapon = wp_chainsaw;
-        }
+	if (newweapon == wp_fist
+        && player->weaponowned[wp_chainsaw]
+        && !(player->readyweapon == wp_chainsaw
+        && player->powers[pw_strength]))
+    {
+        newweapon = wp_chainsaw;
+        // [Nugget] Allow Unpowered Fist/Chainsaw switch
+        if (crispy->fistswitch && !(demorecording || demoplayback))
+            {newweapon == wpfist;}
 	}
 
 	if ( (crispy->havessg)
