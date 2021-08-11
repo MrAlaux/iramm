@@ -774,11 +774,16 @@ P_KillMobj
 
     if ((target->health < -target->info->spawnhealth
         && target->info->xdeathstate)
-        || (crispy->extragibbing
-            && !(demorecording || demoplayback) && source->player
-            && ((source->player->readyweapon == wp_chainsaw)
-                || (source->player->readyweapon == wp_supershotgun
-                    && P_CheckSSGGibbing(source, target)))))
+        || // [Nugget] Chainsaw/SSG gibbing
+        (crispy->extragibbing && source->player && !(demorecording || demoplayback)
+            &&
+            ((source->player->readyweapon == wp_chainsaw)
+            ||
+            (source->player->readyweapon == wp_supershotgun
+                && P_CheckSSGGibbing(source, target))
+             )
+         )
+        )
     {
 	P_SetMobjState (target, target->info->xdeathstate);
     }
@@ -823,7 +828,7 @@ P_KillMobj
 boolean P_CheckSSGGibbing (mobj_t* source, mobj_t* target)
 {
     fixed_t	dist;
-    fixed_t range = MELEERANGE-20*FRACUNIT+target->info->radius;
+    fixed_t range = 128*FRACUNIT + target->info->radius;
 
     dist = P_AproxDistance(target->x - source->x,
                            target->y - source->y);
