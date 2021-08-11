@@ -645,6 +645,8 @@ enum
 {
     crispness_sep_nugget,
     crispness_nocrispnessbg,
+    crispness_extragibbing,
+    crispness_fistswitch,
     crispness_viewheight,
     crispness_sep_nugget_,
 
@@ -658,6 +660,8 @@ static menuitem_t Crispness5Menu[]= // [Nugget]
 {
     {-1,"",0,'\0'},
     {1,"",	M_NuggetToggleCrispBackground,'b'},
+    {1,"",	M_NuggetToggleExtraGibbing,'g'},
+    {1,"",	M_NuggetToggleFistSwitch,'f'},
     {1,"",	M_NuggetToggleViewheight,'v'},
     {-1,"",0,'\0'},
     {1,"",	M_CrispnessNext,'n'},
@@ -1613,6 +1617,8 @@ static void M_DrawCrispness5(void)
 
     M_DrawCrispnessSeparator(crispness_sep_nugget, "Nugget"); // [Nugget]
     M_DrawCrispnessItem(crispness_nocrispnessbg, "No Crisp Background", crispy->nocrispnessbg, true);
+    M_DrawCrispnessItem(crispness_extragibbing, "CSaw/SSG gibbing", crispy->extragibbing, true);
+    M_DrawCrispnessItem(crispness_fistswitch, "Unpowered Fist/CSaw switch", crispy->fistswitch, true);
     M_DrawCrispnessItem(crispness_viewheight, "Adjust view height", crispy->viewheight, true);
 
     M_DrawCrispnessGoto(crispness5_next, "First Page >");
