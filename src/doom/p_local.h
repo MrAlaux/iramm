@@ -33,7 +33,7 @@
 #define MAXHEALTH		100
 #define VIEWHEIGHT		(41*FRACUNIT)
 #define CVIEWHEIGHT     (VIEWHEIGHT/2)
-#define ALTVIEWHEIGHT	(46*FRACUNIT)
+#define ALTVIEWHEIGHT	(45*FRACUNIT)
 #define ALTCVIEWHEIGHT  (ALTVIEWHEIGHT/2)
 
 // mapblocks are used to check movement
