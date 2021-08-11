@@ -97,7 +97,9 @@ void P_CalcHeight (player_t* player)
     // [crispy] variable player view bob
     player->bob2 = crispy_bobfactor[crispy->bobfactor] * player->bob / 4;
 
-    if (crispy->viewheight) { // [Nugget] Check for viewheight setting
+     // [Nugget] Check for viewheight setting
+    if (crispy->viewheight && !(demorecording || demoplayback))
+    {
         if (player->mo->flags & MF_CROUCH) {view = ALTCVIEWHEIGHT;}
         else {view = ALTVIEWHEIGHT;}
     }
@@ -182,7 +184,10 @@ void P_MovePlayer (player_t* player)
     onground |= (player->mo->flags & MF_NOCLIP);
 
     move = 2048;
-    if (player->mo->flags & MF_CROUCH) {move /= 2;} // [Nugget] Check for crouching
+
+    // [Nugget] Check for crouching
+    if ((player->mo->flags & MF_CROUCH) && !(demorecording || demoplayback))
+        {move /= 2;}
 
     if (cmd->forwardmove && onground)
 	P_Thrust (player, player->mo->angle, cmd->forwardmove*move);
