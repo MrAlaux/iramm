@@ -1592,7 +1592,7 @@ static void M_DrawCrispness4(void)
     M_DrawCrispnessSeparator(crispness_sep_physical, "Physical");
 
     M_DrawCrispnessMultiItem(crispness_freeaim, "Vertical Aiming", multiitem_freeaim, crispy->freeaim, crispy->singleplayer);
-    M_DrawCrispnessMultiItem(crispness_jumping, "Allow Jumping", multiitem_jump, crispy->jump, crispy->singleplayer);
+    M_DrawCrispnessMultiItem(crispness_jumping, "Allow Jumping/Crouching", multiitem_jump, crispy->jump, crispy->singleplayer);
     M_DrawCrispnessItem(crispness_overunder, "Walk over/under Monsters", crispy->overunder, crispy->singleplayer);
     M_DrawCrispnessItem(crispness_recoil, "Weapon Recoil Thrust", crispy->recoil, crispy->singleplayer);
 
@@ -1617,9 +1617,9 @@ static void M_DrawCrispness5(void)
 
     M_DrawCrispnessSeparator(crispness_sep_nugget, "Nugget"); // [Nugget]
     M_DrawCrispnessItem(crispness_nocrispnessbg, "No Crisp Background", crispy->nocrispnessbg, true);
-    M_DrawCrispnessItem(crispness_extragibbing, "CSaw/SSG gibbing", crispy->extragibbing, true);
-    M_DrawCrispnessItem(crispness_fistswitch, "Unpowered Fist/CSaw switch", crispy->fistswitch, true);
-    M_DrawCrispnessItem(crispness_viewheight, "Adjust view height", crispy->viewheight, true);
+    M_DrawCrispnessItem(crispness_extragibbing, "CSaw/SSG gibbing", crispy->extragibbing, crispy->singleplayer);
+    M_DrawCrispnessItem(crispness_fistswitch, "Unpowered Fist/CSaw switch", crispy->fistswitch, crispy->singleplayer);
+    M_DrawCrispnessItem(crispness_viewheight, "Adjust view height", crispy->viewheight, crispy->singleplayer);
 
     M_DrawCrispnessGoto(crispness5_next, "First Page >");
     M_DrawCrispnessGoto(crispness5_prev, "< Prev Page");
