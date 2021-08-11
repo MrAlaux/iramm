@@ -410,9 +410,9 @@ void P_PlayerThink (player_t* player)
             if (player->mo->flags & MF_CROUCH) {
                 // [Nugget] Check if ceiling's high enough to stand up.
                 if ((player->mo->ceilingz - player->mo->floorz)
-                    >= (player->mo->height)) { // [Nugget] Stand up
+                    >= (player->mo->height * 2)) { // [Nugget] Stand up
                     player->mo->flags &= ~MF_CROUCH;
-                    player->mo->height = player->mo->height * 2;
+                    player->mo->height *= 2;
                     player->crouchTics = 18;
                 }
             }
@@ -433,9 +433,9 @@ void P_PlayerThink (player_t* player)
             if (player->mo->flags & MF_CROUCH) {
                 // [Nugget] Check if ceiling's high enough to stand up.
                 if ((player->mo->ceilingz - player->mo->floorz)
-                    >= (player->mo->height)) { // [Nugget] Stand up
+                    >= (player->mo->height * 2)) { // [Nugget] Stand up
                     player->mo->flags &= ~MF_CROUCH;
-                    player->mo->height = player->mo->height * 2;
+                    player->mo->height *= 2;
                     player->crouchTics = 18;
                 }
             }
