@@ -87,5 +87,7 @@ extern void M_CrispyToggleWidescreen(int choice);
 
 // [Nugget]
 extern void M_NuggetToggleCrispBackground(int choice);
+extern void M_NuggetToggleExtraGibbing(int choice);
+extern void M_NuggetToggleFistSwitch(int choice);
 extern void M_NuggetToggleViewheight(int choice);
 #endif

@@ -578,6 +578,18 @@ void M_NuggetToggleCrispBackground(int choice)
     crispy->nocrispnessbg = !crispy->nocrispnessbg;
 }
 
+void M_NuggetToggleExtraGibbing(int choice)
+{
+    choice = 0;
+    crispy->extragibbing = !crispy->extragibbing;
+}
+
+void M_NuggetToggleFistSwitch(int choice)
+{
+    choice = 0;
+    crispy->fistswitch = !crispy->fistswitch;
+}
+
 void M_NuggetToggleViewheight(int choice)
 {
     choice = 0;
