@@ -53,7 +53,9 @@ typedef struct
 	int demotimerdir;
 	int demobar;
 	int extautomap;
+	int extragibbing; // [Nugget]
 	int extsaveg;
+	int fistswitch; // [Nugget]
 	int flipcorpses;
 	int freeaim;
 	int freelook;
