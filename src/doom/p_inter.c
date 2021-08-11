@@ -772,25 +772,20 @@ P_KillMobj
         target->type == MT_BARREL)
         target->flags |= MF_TRANSLUCENT;
 
-    if ((target->health < -target->info->spawnhealth
+    if // [Nugget] Chainsaw/SSG gibbing
+    (crispy->extragibbing && source && source->player
+    && !(demorecording || demoplayback) && target->info->xdeathstate
+    && ((source->player->readyweapon == wp_chainsaw)
+        || (source->player->readyweapon == wp_supershotgun
+            && P_CheckSSGGibbing(source, target))))
+        {P_SetMobjState (target, target->info->xdeathstate);}
+    else if (target->health < -target->info->spawnhealth
         && target->info->xdeathstate)
-        || // [Nugget] Chainsaw/SSG gibbing
-        (crispy->extragibbing && source->player
-         && !(demorecording || demoplayback)
-         && target->info->xdeathstate
-            &&
-            ((source->player->readyweapon == wp_chainsaw)
-            ||
-            (source->player->readyweapon == wp_supershotgun
-                && P_CheckSSGGibbing(source, target))
-             )
-         )
-        )
     {
 	P_SetMobjState (target, target->info->xdeathstate);
     }
     else
-	P_SetMobjState (target, target->info->deathstate);
+        {P_SetMobjState (target, target->info->deathstate);}
     target->tics -= P_Random()&3;
 
     // [crispy] randomly flip corpse, blood and death animation sprites
