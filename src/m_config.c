@@ -2290,6 +2290,22 @@ static default_t extra_defaults_list[] =
     //!
     // @game doom
     //
+    // Chainsaw/SSG gibbing.
+    //
+
+    CONFIG_VARIABLE_INT(nugget_extragibbing),
+
+    //!
+    // @game doom
+    //
+    // Unpowered Fist/Chainsaw switch.
+    //
+
+    CONFIG_VARIABLE_INT(nugget_fistswitch),
+
+    //!
+    // @game doom
+    //
     // Draw Crispness background.
     //
 
