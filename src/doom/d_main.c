@@ -477,6 +477,8 @@ void D_BindVariables(void)
     M_BindIntVariable("crispy_widescreen",      &crispy->widescreen);
 
     // [Nugget] Bind Nugget variables
+    M_BindIntVariable("nugget_extragibbing",     &crispy->extragibbing);
+    M_BindIntVariable("nugget_fistswitch",       &crispy->fistswitch);
     M_BindIntVariable("nugget_nocrispnessbg",    &crispy->nocrispnessbg);
     M_BindIntVariable("nugget_viewheight",       &crispy->viewheight);
 }
