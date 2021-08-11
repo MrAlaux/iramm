@@ -98,7 +98,7 @@ void P_CalcHeight (player_t* player)
     player->bob2 = crispy_bobfactor[crispy->bobfactor] * player->bob / 4;
 
      // [Nugget] Check for viewheight setting
-    if (crispy->viewheight && !(demorecording || demoplayback))
+    if (crispy->viewheight && !demorecording)
     {
         if (player->mo->flags & MF_CROUCH) {view = ALTCVIEWHEIGHT;}
         else {view = ALTVIEWHEIGHT;}
