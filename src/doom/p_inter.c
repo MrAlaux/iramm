@@ -775,10 +775,13 @@ P_KillMobj
     if // [Nugget] Chainsaw/SSG gibbing
     (crispy->extragibbing && source && source->player
     && !(demorecording || demoplayback) && target->info->xdeathstate
-    && ((source->player->readyweapon == wp_chainsaw)
-        || (source->player->readyweapon == wp_supershotgun
-            && P_CheckSSGGibbing(source, target))))
+    && ((source->player->readyweapon == wp_chainsaw) // Chainsaw
+        || (source->player->readyweapon == wp_supershotgun // SSG
+            && P_CheckSSGGibbing(source, target))
+        || (source->player->readyweapon == wp_fist // Berserk Fist
+            && source->player->powers[pw_strength])))
         {P_SetMobjState (target, target->info->xdeathstate);}
+
     else if (target->health < -target->info->spawnhealth
         && target->info->xdeathstate)
     {
