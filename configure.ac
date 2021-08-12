@@ -1,4 +1,4 @@
-AC_INIT(Nugget Doom, 0.4.2,
+AC_INIT(Nugget Doom, 0.4.3,
         , nugget-doom)
 
 PACKAGE_SHORTNAME=${PACKAGE_NAME% Doom}
