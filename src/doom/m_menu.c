@@ -1617,7 +1617,7 @@ static void M_DrawCrispness5(void)
 
     M_DrawCrispnessSeparator(crispness_sep_nugget, "Nugget"); // [Nugget]
     M_DrawCrispnessItem(crispness_nocrispnessbg, "No Crisp Background", crispy->nocrispnessbg, true);
-    M_DrawCrispnessItem(crispness_extragibbing, "CSaw/SSG gibbing", crispy->extragibbing, crispy->singleplayer);
+    M_DrawCrispnessItem(crispness_extragibbing, "Extra Gibbing", crispy->extragibbing, crispy->singleplayer);
     M_DrawCrispnessItem(crispness_fistswitch, "Unpowered Fist/CSaw switch", crispy->fistswitch, crispy->singleplayer);
     M_DrawCrispnessItem(crispness_viewheight, "Adjust view height", crispy->viewheight, crispy->singleplayer);
 
