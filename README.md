@@ -2,12 +2,14 @@
 
 Nugget Doom (formerly known as IRamm) is a fork of [Crispy Doom](https://www.chocolate-doom.org/wiki/index.php/Crispy_Doom), essentially intended as a personal playground to mess around with Doom's source code.
 
-### Features (with default bindings if applicable)
+### Features
 
- * Crouching/ducking (<kbd>C</kbd>)
+ * Crouching/ducking (default key: <kbd>C</kbd>)
  * A setting to adjust the player's POV closer to Doomguy's helmet
  * A setting to disable the crisp background in the Crispness menu
  * Crispy's 'Misc. Sound Fixes' setting now makes A_CPosAttack use the Pistol sound effect
+ * A setting to enable Chaingun/SSG gibbing
+ * A setting to allow to switch between the Chainsaw and the non-Berserk Fist
  * Support for a DSCHGUN lump: if provided, it will be used for A_FireCGun, and for A_CPosAttack only if the above mentioned setting is enabled
 
 ### Building
@@ -22,7 +24,7 @@ Please report any bugs, glitches or crashes that you encounter to the GitHub [Is
 
 ### Acknowledgement
 
-Some code is based on A_BodyParts from [Chocolate Strife](https://github.com/chocolate-doom/chocolate-doom/blob/master/src/strife).
+Some former code is based on A_BodyParts from [Chocolate Strife](https://github.com/chocolate-doom/chocolate-doom/blob/master/src/strife).
 
 Help was provided by kraflab (responsible for [dsda-doom](https://github.com/kraflab/dsda-doom)) and Fabian Greffrath himself.
 
