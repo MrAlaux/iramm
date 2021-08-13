@@ -24,7 +24,7 @@
 
 
 boolean	P_GivePower(player_t*, int);
-boolean P_CheckSSGGibbing (mobj_t*, mobj_t*); // [Nugget]
+boolean P_NuggetCheckDist(mobj_t*, mobj_t*, fixed_t range, boolean addradius); // [Nugget]
 
 
 
