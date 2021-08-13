@@ -1016,8 +1016,10 @@ void A_BruisAttack (mobj_t* actor)
     if (!actor->target)
 	return;
 
-    // [crispy] face the enemy
-//  A_FaceTarget (actor);
+    // [Nugget] Face the enemy
+    if (crispy->bugfixes && !(demorecording||demoplayback))
+        {A_FaceTarget(actor);}
+
     if (P_CheckMeleeRange (actor))
     {
 	S_StartSound (actor, sfx_claw);
@@ -1345,9 +1347,15 @@ void A_VileTarget (mobj_t*	actor)
 
     A_FaceTarget (actor);
 
+    // [Nugget] Fix Arch-Vile fire bug
+    if (crispy->bugfixes && !(demorecording||demoplayback))
+    {fog = P_SpawnMobj(actor->target->x,actor->target->y,
+                       actor->target->z, MT_FIRE);}
+    else {
     fog = P_SpawnMobj (actor->target->x,
 		       actor->target->x,
 		       actor->target->z, MT_FIRE);
+    }
 
     actor->tracer = fog;
     fog->target = actor;
@@ -1355,12 +1363,12 @@ void A_VileTarget (mobj_t*	actor)
     // [crispy] play DSFLAMST sound when Arch-Vile spawns fire attack
     if (crispy->soundfix && I_GetSfxLumpNum(&S_sfx[sfx_flamst]) != -1)
     {
-	S_StartSound(fog, sfx_flamst);
-	// [crispy] make DSFLAMST sound uninterruptible
-	if (crispy->soundfull)
-	{
-		S_UnlinkSound(fog);
-	}
+        S_StartSound(fog, sfx_flamst);
+        // [crispy] make DSFLAMST sound uninterruptible
+        if (crispy->soundfull)
+        {
+            S_UnlinkSound(fog);
+        }
     }
 
     A_Fire (fog);
