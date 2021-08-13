@@ -2290,6 +2290,14 @@ static default_t extra_defaults_list[] =
     //!
     // @game doom
     //
+    // Miscellaneous bug fixes.
+    //
+
+    CONFIG_VARIABLE_INT(nugget_bugfixes),
+
+    //!
+    // @game doom
+    //
     // Chainsaw/SSG gibbing.
     //
 
