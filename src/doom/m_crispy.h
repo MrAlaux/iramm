@@ -86,6 +86,7 @@ extern void M_CrispyToggleWeaponSquat(int choice);
 extern void M_CrispyToggleWidescreen(int choice);
 
 // [Nugget]
+extern void M_NuggetToggleBugFixes(int choice);
 extern void M_NuggetToggleCrispBackground(int choice);
 extern void M_NuggetToggleExtraGibbing(int choice);
 extern void M_NuggetToggleFistSwitch(int choice);

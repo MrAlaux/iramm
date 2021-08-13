@@ -572,6 +572,12 @@ void M_CrispyToggleWidescreen(int choice)
 
 // [Nugget]
 
+void M_NuggetToggleBugFixes(int choice)
+{
+    choice = 0;
+    crispy->nocrispnessbg = !crispy->nocrispnessbg;
+}
+
 void M_NuggetToggleCrispBackground(int choice)
 {
     choice = 0;
