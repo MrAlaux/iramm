@@ -659,10 +659,11 @@ enum
 static menuitem_t Crispness5Menu[]= // [Nugget]
 {
     {-1,"",0,'\0'},
-    {1,"",	M_NuggetToggleCrispBackground,'b'},
+    {1,"",	M_NuggetToggleCrispBackground,'c'},
     {1,"",	M_NuggetToggleExtraGibbing,'g'},
     {1,"",	M_NuggetToggleFistSwitch,'f'},
     {1,"",	M_NuggetToggleViewheight,'v'},
+    {1,"",	M_NuggetToggleBugFixes,'b'},
     {-1,"",0,'\0'},
     {1,"",	M_CrispnessNext,'n'},
     {1,"",	M_CrispnessPrev,'p'},
@@ -1620,6 +1621,7 @@ static void M_DrawCrispness5(void)
     M_DrawCrispnessItem(crispness_extragibbing, "Extra Gibbing", crispy->extragibbing, crispy->singleplayer);
     M_DrawCrispnessItem(crispness_fistswitch, "Unpowered Fist/CSaw switch", crispy->fistswitch, crispy->singleplayer);
     M_DrawCrispnessItem(crispness_viewheight, "Adjust view height", crispy->viewheight, crispy->singleplayer);
+    M_DrawCrispnessItem(crispness_bugfixes, "Misc. Bug Fixes", crispy->bugfixes, crispy->singleplayer);
 
     M_DrawCrispnessGoto(crispness5_next, "First Page >");
     M_DrawCrispnessGoto(crispness5_prev, "< Prev Page");
