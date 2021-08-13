@@ -648,6 +648,7 @@ enum
     crispness_extragibbing,
     crispness_fistswitch,
     crispness_viewheight,
+    crispness_bugfixes,
     crispness_sep_nugget_,
 
     crispness5_next,
