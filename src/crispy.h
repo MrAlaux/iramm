@@ -53,9 +53,7 @@ typedef struct
 	int demotimerdir;
 	int demobar;
 	int extautomap;
-	int extragibbing; // [Nugget]
 	int extsaveg;
-	int fistswitch; // [Nugget]
 	int flipcorpses;
 	int freeaim;
 	int freelook;
@@ -64,7 +62,6 @@ typedef struct
 	int leveltime;
 	int mouselook;
 	int neghealth;
-	int nocrispnessbg; // [Nugget]
 	int overunder;
 	int pitch;
 	int playercoords;
@@ -81,7 +78,6 @@ typedef struct
 	int truecolor;
 #endif
 	int uncapped;
-	int viewheight; // [Nugget]
 	int vsync;
 	int weaponsquat;
 	int widescreen;
@@ -91,6 +87,13 @@ typedef struct
 	int cleanscreenshot;
 	int demowarp;
 	int fps;
+
+	// [Nugget]
+	int bugfixes;
+    int extragibbing; // [Nugget]
+	int fistswitch; // [Nugget]
+	int nocrispnessbg; // [Nugget]
+	int viewheight; // [Nugget]
 
 	boolean flashinghom;
 	boolean fliplevels;
