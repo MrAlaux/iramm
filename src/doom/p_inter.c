@@ -894,11 +894,11 @@ P_DamageMobj
 	&& !(target->flags & MF_NOCLIP)
 	&& (!source
 	    || !source->player
-	    || source->player->readyweapon != wp_chainsaw
 	    // [Nugget] Hack to mostly prevent Chainsaw knockback bug
-	    || (source->player->readyweapon = wp_chainsaw
+	    || (source->player->readyweapon == wp_chainsaw
             && !P_NuggetCheckDist(source, target, MELEERANGE+1, false)
-            && crispy->bugfixes && !(demorecording||demoplayback))))
+            && crispy->bugfixes && !(demorecording||demoplayback))
+	    || source->player->readyweapon != wp_chainsaw))
     {
 	ang = R_PointToAngle2 ( inflictor->x,
 				inflictor->y,
