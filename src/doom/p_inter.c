@@ -777,7 +777,7 @@ P_KillMobj
     && !(demorecording || demoplayback) && target->info->xdeathstate
     && ((source->player->readyweapon == wp_chainsaw) // Chainsaw
         || (source->player->readyweapon == wp_supershotgun // SSG
-            && P_CheckSSGGibbing(source, target))
+            && P_NuggetCheckDist(source, target, 128*FRACUNIT, true))
         || (source->player->readyweapon == wp_fist // Berserk Fist
             && source->player->powers[pw_strength])))
         {P_SetMobjState (target, target->info->xdeathstate);}
@@ -824,16 +824,21 @@ P_KillMobj
 }
 
 // [Nugget] Calculate distance between player and target,
-// used for SSG gibbing
-boolean P_CheckSSGGibbing (mobj_t* source, mobj_t* target)
+// used for SSG gibbing and Chainsaw knockback fix
+boolean P_NuggetCheckDist (mobj_t* source, mobj_t* target, fixed_t range, boolean addradius)
 {
     fixed_t	dist;
-    fixed_t range = 128*FRACUNIT + target->info->radius;
+    fixed_t radius;
+    fixed_t range2;
+
+    if (addradius) {radius = target->info->radius;}
+
+    range2 = range + radius;
 
     dist = P_AproxDistance(target->x - source->x,
                            target->y - source->y);
 
-    if (dist >= range)
+    if (dist > range2)
         {return false;}
     else
         {return true;}
@@ -889,7 +894,11 @@ P_DamageMobj
 	&& !(target->flags & MF_NOCLIP)
 	&& (!source
 	    || !source->player
-	    || source->player->readyweapon != wp_chainsaw))
+	    || source->player->readyweapon != wp_chainsaw
+	    // [Nugget] Hack to mostly prevent Chainsaw knockback bug
+	    || (source->player->readyweapon = wp_chainsaw
+            && !P_NuggetCheckDist(source, target, MELEERANGE+1, false)
+            && crispy->bugfixes && !(demorecording||demoplayback))))
     {
 	ang = R_PointToAngle2 ( inflictor->x,
 				inflictor->y,
