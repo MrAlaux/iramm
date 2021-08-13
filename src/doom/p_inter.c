@@ -828,7 +828,7 @@ P_KillMobj
 boolean P_NuggetCheckDist (mobj_t* source, mobj_t* target, fixed_t range, boolean addradius)
 {
     fixed_t	dist;
-    fixed_t radius;
+    fixed_t radius = 0;
     fixed_t range2;
 
     if (addradius) {radius = target->info->radius;}
