@@ -1977,8 +1977,16 @@ void A_BrainScream (mobj_t*	mo)
     int		y;
     int		z;
     mobj_t*	th;
+    // [Nugget] Fix shifted IoS death explosions
+    int     x1;
+    int     x2;
 
-    for (x=mo->x - 196*FRACUNIT ; x< mo->x + 320*FRACUNIT ; x+= FRACUNIT*8)
+    if (crispy->bugfixes && !(demorecording||demoplayback))
+        {x1 = 280; x2 = 280;}
+    else
+        {x1 = 196; x2 = 320;}
+
+    for (x=mo->x - x1*FRACUNIT ; x< mo->x + x2*FRACUNIT ; x+= FRACUNIT*8)
     {
 	y = mo->y - 320*FRACUNIT;
 	z = 128 + P_Random()*2*FRACUNIT;
@@ -2119,6 +2127,12 @@ void A_SpawnFly (mobj_t* mo)
 	type = MT_BRUISER;
 
     newmobj	= P_SpawnMobj (targ->x, targ->y, targ->z, type);
+
+    // [Nugget] Fix (0,0) respawn bug
+    if (crispy->bugfixes && !(demorecording||demoplayback)) {
+        newmobj->spawnpoint.x = targ->x >> FRACBITS;
+        newmobj->spawnpoint.y = targ->y >> FRACBITS;
+    }
 
     // [crispy] count spawned monsters
     extrakills++;
