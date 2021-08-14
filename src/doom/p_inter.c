@@ -987,11 +987,17 @@ P_DamageMobj
     }
 
     if ( (P_Random () < target->info->painchance)
-	 && !(target->flags&MF_SKULLFLY) )
+        && !(target->flags&MF_SKULLFLY) )
     {
-	target->flags |= MF_JUSTHIT;	// fight back!
+        // [Nugget] Prevent pain state if no damage is caused
+        if (crispy->bugfixes && !(demorecording||demoplayback)
+            && damage == 0) {;}
+        else
+        {
+            target->flags |= MF_JUSTHIT;	// fight back!
 
-	P_SetMobjState (target, target->info->painstate);
+            P_SetMobjState (target, target->info->painstate);
+        }
     }
 
     target->reactiontime = 0;		// we're awake now...
