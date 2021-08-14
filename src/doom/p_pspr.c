@@ -859,13 +859,22 @@ A_FireCGun
 {
     if (!player) return; // [crispy] let pspr action pointers get called from mobj states
 
+    // [Nugget] Fix "Chaingun sound without ammo" bug
+    if (crispy->soundfix) {
+        if (!player->ammo[weaponinfo[player->readyweapon].ammo])
+        return;
+    }
+
     if (W_CheckNumForName("dschgun") >= 0) // [Nugget] use DSCHGUN if available
         {S_StartSound (player->so, sfx_chgun);} // [crispy] weapon sound source
     else
         {S_StartSound (player->so, sfx_pistol);} // [crispy] weapon sound source
 
-    if (!player->ammo[weaponinfo[player->readyweapon].ammo])
-	return;
+    // [Nugget] Fix "Chaingun sound without ammo" bug
+    if (!crispy->soundfix) {
+        if (!player->ammo[weaponinfo[player->readyweapon].ammo])
+        return;
+    }
 
     P_SetMobjState (player->mo, S_PLAY_ATK2);
     DecreaseAmmo(player, weaponinfo[player->readyweapon].ammo, 1);
