@@ -175,7 +175,11 @@ void P_XYMovement (mobj_t* mo)
 	    mo->flags &= ~MF_SKULLFLY;
 	    mo->momx = mo->momy = mo->momz = 0;
 
-	    P_SetMobjState (mo, mo->info->spawnstate);
+	    // [Nugget] Fix forgetful lost soul
+	    if (crispy->bugfixes && !(demorecording||demoplayback))
+            {P_SetMobjState (mo, mo->info->seestate);}
+        else
+            {P_SetMobjState (mo, mo->info->spawnstate);}
 	}
 	return;
     }
