@@ -98,7 +98,7 @@ void P_CalcHeight (player_t* player)
     player->bob2 = crispy_bobfactor[crispy->bobfactor] * player->bob / 4;
 
      // [Nugget] Check for viewheight setting
-    if (crispy->viewheight && !demorecording)
+    if (crispy->viewheight && !(demorecording||netgame))
     {
         if (player->mo->flags & MF_CROUCH) {view = ALTCVIEWHEIGHT;}
         else {view = ALTVIEWHEIGHT;}
@@ -186,7 +186,7 @@ void P_MovePlayer (player_t* player)
     move = 2048;
 
     // [Nugget] Check for crouching
-    if ((player->mo->flags & MF_CROUCH) && !(demorecording || demoplayback))
+    if ((player->mo->flags & MF_CROUCH) && crispy->singleplayer)
         {move /= 2;}
 
     if (cmd->forwardmove && onground)
@@ -489,8 +489,7 @@ void P_PlayerThink (player_t* player)
         newweapon = wp_chainsaw;
 
         // [Nugget] Allow Unpowered Fist/Chainsaw switch
-        if (crispy->fistswitch
-            && !(demorecording || demoplayback)) {
+        if (crispy->fistswitch && crispy->singleplayer) {
             if (player->readyweapon == wp_chainsaw)
                 {newweapon = wp_fist;}
             else if (player->readyweapon == wp_fist)
