@@ -1981,7 +1981,7 @@ void A_BrainScream (mobj_t*	mo)
     int     x1;
     int     x2;
 
-    if (crispy->bugfixes && !(demorecording||demoplayback))
+    if (crispy->bugfixes && crispy->singleplayer)
         {x1 = 280; x2 = 280;}
     else
         {x1 = 196; x2 = 320;}
@@ -2129,7 +2129,7 @@ void A_SpawnFly (mobj_t* mo)
     newmobj	= P_SpawnMobj (targ->x, targ->y, targ->z, type);
 
     // [Nugget] Fix (0,0) respawn bug
-    if (crispy->bugfixes && !(demorecording||demoplayback)) {
+    if (crispy->bugfixes && crispy->singleplayer) {
         newmobj->spawnpoint.x = targ->x >> FRACBITS;
         newmobj->spawnpoint.y = targ->y >> FRACBITS;
     }
