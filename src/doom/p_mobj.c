@@ -176,7 +176,7 @@ void P_XYMovement (mobj_t* mo)
 	    mo->momx = mo->momy = mo->momz = 0;
 
 	    // [Nugget] Fix forgetful lost soul
-	    if (crispy->bugfixes && !(demorecording||demoplayback))
+	    if (crispy->bugfixes && crispy->singleplayer)
             {P_SetMobjState (mo, mo->info->seestate);}
         else
             {P_SetMobjState (mo, mo->info->spawnstate);}
