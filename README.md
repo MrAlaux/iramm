@@ -8,6 +8,17 @@ Nugget Doom (formerly known as IRamm) is a fork of [Crispy Doom](https://www.cho
  * A setting to adjust the player's POV closer to Doomguy's helmet
  * A setting to disable the crisp background in the Crispness menu
  * Crispy's 'Misc. Sound Fixes' setting now makes A_CPosAttack use the Pistol sound effect
+ * A setting to fix miscellaneous bugs, namely the following:
+   * / Archvile fire spawning at wrong location
+   * (0,0) respawning bug
+   * A_BruisAttack not calling A_FaceTarget
+   * Chaingun plays sound twice with a single bullet
+   * IDCHOPPERS invulnerability
+   * Lost Soul colliding with items
+   * Lost Soul forgets its target
+   * No projectile knockback when Chainsaw is equipped
+   * Pain state with 0 damage attacks
+   * Lopsided Icon of Sin death explosions /
  * A setting to force Berserk Fist/Chainsaw/SSG gibbing
  * A setting to allow to switch between the Chainsaw and the non-Berserk Fist
  * Support for a DSCHGUN lump: if provided, it will be used for A_FireCGun, and for A_CPosAttack only if the above mentioned setting is enabled
