@@ -316,7 +316,7 @@ boolean PIT_CheckThing (mobj_t* thing)
 	if (critical->overunder && thing->player)
 	{
 	    // [Nugget] More accurate?
-	    if (crispy->bugfixes && !(demorecording||demoplayback)) {
+	    if (crispy->bugfixes && crispy->singleplayer) {
             // [crispy] mobj or actual sprite height
             const fixed_t thingheight = (tmthing->target && tmthing->target->player &&
                                         critical->freeaim == FREEAIM_DIRECT) ?
@@ -336,7 +336,7 @@ boolean PIT_CheckThing (mobj_t* thing)
 	}
 
 	// [Nugget] Fix lost soul collision
-	if (crispy->bugfixes && !(demorecording||demoplayback)) {
+	if (crispy->bugfixes && crispy->singleplayer) {
         if (!(thing->flags & MF_SHOOTABLE))
             {return !(thing->flags & MF_SOLID);}
     }
