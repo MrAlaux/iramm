@@ -1017,7 +1017,7 @@ void A_BruisAttack (mobj_t* actor)
 	return;
 
     // [Nugget] Face the enemy
-    if (crispy->bugfixes && !(demorecording||demoplayback))
+    if (crispy->bugfixes && crispy->singleplayer)
         {A_FaceTarget(actor);}
 
     if (P_CheckMeleeRange (actor))
@@ -1348,7 +1348,7 @@ void A_VileTarget (mobj_t*	actor)
     A_FaceTarget (actor);
 
     // [Nugget] Fix Arch-Vile fire bug
-    if (crispy->bugfixes && !(demorecording||demoplayback))
+    if (crispy->bugfixes && crispy->singleplayer)
     {fog = P_SpawnMobj(actor->target->x,actor->target->y,
                        actor->target->z, MT_FIRE);}
     else {
