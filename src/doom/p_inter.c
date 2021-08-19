@@ -774,16 +774,18 @@ P_KillMobj
 
     if // [Nugget] Chainsaw/SSG gibbing
     (crispy->extragibbing && source && source->player
-    && !(demorecording || demoplayback) && target->info->xdeathstate
-    && ((source->player->readyweapon == wp_chainsaw) // Chainsaw
+    && crispy->singleplayer && target->info->xdeathstate
+    && ((source->player->readyweapon == wp_chainsaw // Chainsaw
+         && P_NuggetCheckDist(source, target, 65*FRACUNIT, false))
         || (source->player->readyweapon == wp_supershotgun // SSG
             && P_NuggetCheckDist(source, target, 128*FRACUNIT, true))
         || (source->player->readyweapon == wp_fist // Berserk Fist
-            && source->player->powers[pw_strength])))
+            && source->player->powers[pw_strength]
+            && P_NuggetCheckDist(source, target, 64*FRACUNIT, false))))
         {P_SetMobjState (target, target->info->xdeathstate);}
 
     else if (target->health < -target->info->spawnhealth
-        && target->info->xdeathstate)
+             && target->info->xdeathstate)
     {
 	P_SetMobjState (target, target->info->xdeathstate);
     }
@@ -897,7 +899,7 @@ P_DamageMobj
 	    // [Nugget] Hack to mostly prevent Chainsaw knockback bug
 	    || (source->player->readyweapon == wp_chainsaw
             && !P_NuggetCheckDist(source, target, MELEERANGE+1, false)
-            && crispy->bugfixes && !(demorecording||demoplayback))
+            && crispy->bugfixes && crispy->singleplayer)
 	    || source->player->readyweapon != wp_chainsaw))
     {
 	ang = R_PointToAngle2 ( inflictor->x,
@@ -990,7 +992,7 @@ P_DamageMobj
         && !(target->flags&MF_SKULLFLY) )
     {
         // [Nugget] Prevent pain state if no damage is caused
-        if (crispy->bugfixes && !(demorecording||demoplayback)
+        if (crispy->bugfixes && crispy->singleplayer)
             && damage == 0) {;}
         else
         {
