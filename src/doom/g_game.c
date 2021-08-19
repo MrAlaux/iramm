@@ -2280,7 +2280,6 @@ void G_DoSaveGame (void)
 
     P_WriteSaveGameEOF();
     // [crispy] write extended savegame data
-    if (crispy->extsaveg)
     P_WriteExtendedSaveGameData();
 
 
