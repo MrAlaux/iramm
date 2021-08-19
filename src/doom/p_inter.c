@@ -992,7 +992,7 @@ P_DamageMobj
         && !(target->flags&MF_SKULLFLY) )
     {
         // [Nugget] Prevent pain state if no damage is caused
-        if (crispy->bugfixes && crispy->singleplayer)
+        if (crispy->bugfixes && crispy->singleplayer
             && damage == 0) {;}
         else
         {
