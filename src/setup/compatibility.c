@@ -66,7 +66,6 @@ void BindCompatibilityVariables(void)
         M_BindIntVariable("crispy_demotimer",       &crispy->demotimer);
         M_BindIntVariable("crispy_demotimerdir",    &crispy->demotimerdir);
         M_BindIntVariable("crispy_extautomap",      &crispy->extautomap);
-        M_BindIntVariable("crispy_extsaveg",        &crispy->extsaveg);
         M_BindIntVariable("crispy_flipcorpses",     &crispy->flipcorpses);
         M_BindIntVariable("crispy_freeaim",         &crispy->freeaim);
         M_BindIntVariable("crispy_freelook",        &crispy->freelook);
@@ -94,6 +93,13 @@ void BindCompatibilityVariables(void)
         M_BindIntVariable("crispy_vsync",           &crispy->vsync);
         M_BindIntVariable("crispy_weaponsquat",     &crispy->weaponsquat);
         M_BindIntVariable("crispy_widescreen",      &crispy->widescreen);
+
+        // [Nugget] Bind Nugget variables
+        M_BindIntVariable("nugget_bugfixes",         &crispy->bugfixes);
+        M_BindIntVariable("nugget_extragibbing",     &crispy->extragibbing);
+        M_BindIntVariable("nugget_fistswitch",       &crispy->fistswitch);
+        M_BindIntVariable("nugget_nocrispnessbg",    &crispy->nocrispnessbg);
+        M_BindIntVariable("nugget_viewheight",       &crispy->viewheight);
     }
     else if (gamemission == heretic)
     {
