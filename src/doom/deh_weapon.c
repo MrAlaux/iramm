@@ -34,6 +34,8 @@ DEH_BEGIN_MAPPING(weapon_mapping, weaponinfo_t)
   DEH_MAPPING("Bobbing frame",    readystate)
   DEH_MAPPING("Shooting frame",   atkstate)
   DEH_MAPPING("Firing frame",     flashstate)
+  DEH_MAPPING("Ammo per shot",    ammopershot)
+  DEH_MAPPING("MBF21 Bits",       flags)
 DEH_END_MAPPING
 
 static void *DEH_WeaponStart(deh_context_t *context, char *line)
@@ -51,7 +53,7 @@ static void *DEH_WeaponStart(deh_context_t *context, char *line)
         DEH_Warning(context, "Invalid weapon number: %i", weapon_number);
         return NULL;
     }
-    
+
     return &weaponinfo[weapon_number];
 }
 
@@ -60,7 +62,7 @@ static void DEH_WeaponParseLine(deh_context_t *context, char *line, void *tag)
     char *variable_name, *value;
     weaponinfo_t *weapon;
     int ivalue;
-    
+
     if (tag == NULL)
         return;
 

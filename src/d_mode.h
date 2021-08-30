@@ -69,6 +69,10 @@ typedef enum
     exe_final2,      // Final Doom (alternate exe)
     exe_chex,        // Chex Quest executable (based on Final Doom)
 
+    exe_boom,        // Boom
+    exe_mbf,         // Marine's Best Friend
+    exe_mbf21,       // MBF21
+
     exe_heretic_1_3, // Heretic 1.3
 
     exe_hexen_1_1,   // Hexen 1.1

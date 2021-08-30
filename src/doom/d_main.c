@@ -214,6 +214,7 @@ boolean D_Display (void)
 	if (automapactive && !crispy->automapoverlay)
 	{
 	    // [crispy] update automap while playing
+	    // [Nugget] Should make this a setting...
 	    R_RenderPlayerView (&players[displayplayer]);
 	    AM_Drawer ();
 	}
@@ -626,8 +627,12 @@ const char                    *pagename;
 //
 void D_PageTicker (void)
 {
-    if (--pagetic < 0)
-	D_AdvanceDemo ();
+  // killough 12/98: don't advance internal demos if a single one is
+  // being played. The only time this matters is when using -loadgame with
+  // -fastdemo, -playdemo, or -timedemo, and a consistency error occurs.
+
+  if (!singledemo && --pagetic < 0)
+    D_AdvanceDemo();
 }
 
 
@@ -637,7 +642,28 @@ void D_PageTicker (void)
 //
 void D_PageDrawer (void)
 {
-    V_DrawPatchFullScreen (W_CacheLumpName(pagename, PU_CACHE), crispy->fliplevels);
+    if (gameversion == (exe_boom||exe_mbf||exe_mbf21)) {
+        if (pagename)
+        {
+        int l = W_CheckNumForName(pagename);
+        byte *t = W_CacheLumpNum(l, PU_CACHE);
+        size_t s = W_LumpLength(l);
+        unsigned c = 0;
+        while (s--)
+        c = c*3 + t[s];
+        V_DrawPatchFullScreen(0, (patch_t *) t);
+        if (c==2119826587u || c==2391756584u)
+        // [FG] removed the embedded DOGOVRLY title pic overlay graphic lump
+            if (W_CheckNumForName("DOGOVRLY") > 0)
+            {
+                V_DrawPatch(0, 0, 0, W_CacheLumpName("DOGOVRLY", PU_CACHE));
+            }
+        }
+        else
+        M_DrawCredits();
+    }
+    else
+    {V_DrawPatchFullScreen (W_CacheLumpName(pagename, PU_CACHE), crispy->fliplevels);}
 }
 
 
@@ -1121,6 +1147,9 @@ static struct
     {"Final Doom",           "final",      exe_final},
     {"Final Doom (alt)",     "final2",     exe_final2},
     {"Chex Quest",           "chex",       exe_chex},
+    {"Boom",                 "Boom",       exe_boom},
+    {"Marine's Best Friend", "MBF",        exe_mbf},
+    {"MBF21",                "MBF21",      exe_mbf21},
     { NULL,                  NULL,         0},
 };
 
@@ -1270,6 +1299,84 @@ static void InitGameVersion(void)
     {
         gamemission = doom2;
     }
+}
+
+// [Nugget] Add MBF21
+// mbf21: don't want to reorganize info.c structure for a few tweaks...
+
+static void D_InitTables(void)
+{
+  int i;
+  for (i = 0; i < NUMMOBJTYPES; ++i)
+  {
+    mobjinfo[i].flags2           = 0;
+    mobjinfo[i].infighting_group = IG_DEFAULT;
+    mobjinfo[i].projectile_group = PG_DEFAULT;
+    mobjinfo[i].splash_group     = SG_DEFAULT;
+    mobjinfo[i].ripsound         = sfx_None;
+    mobjinfo[i].altspeed         = NO_ALTSPEED;
+    mobjinfo[i].meleerange       = MELEERANGE;
+    // [Woof!]
+    mobjinfo[i].bloodcolor       = 0; // Normal
+    // DEHEXTRA
+    mobjinfo[i].droppeditem      = MT_NULL;
+  }
+
+  mobjinfo[MT_VILE].flags2    = MF2_SHORTMRANGE | MF2_DMGIGNORED | MF2_NOTHRESHOLD;
+  mobjinfo[MT_CYBORG].flags2  = MF2_NORADIUSDMG | MF2_HIGHERMPROB | MF2_RANGEHALF |
+                                MF2_FULLVOLSOUNDS | MF2_E2M8BOSS | MF2_E4M6BOSS;
+  mobjinfo[MT_SPIDER].flags2  = MF2_NORADIUSDMG | MF2_RANGEHALF | MF2_FULLVOLSOUNDS |
+                                MF2_E3M8BOSS | MF2_E4M8BOSS;
+  mobjinfo[MT_SKULL].flags2   = MF2_RANGEHALF;
+  mobjinfo[MT_FATSO].flags2   = MF2_MAP07BOSS1;
+  mobjinfo[MT_BABY].flags2    = MF2_MAP07BOSS2;
+  mobjinfo[MT_BRUISER].flags2 = MF2_E1M8BOSS;
+  mobjinfo[MT_UNDEAD].flags2  = MF2_LONGMELEE | MF2_RANGEHALF;
+
+  mobjinfo[MT_BRUISER].projectile_group = PG_BARON;
+  mobjinfo[MT_KNIGHT].projectile_group = PG_BARON;
+
+  mobjinfo[MT_BRUISERSHOT].altspeed = 20 * FRACUNIT;
+  mobjinfo[MT_HEADSHOT].altspeed = 20 * FRACUNIT;
+  mobjinfo[MT_TROOPSHOT].altspeed = 20 * FRACUNIT;
+
+  // [Woof!]
+  mobjinfo[MT_HEAD].bloodcolor = 3; // Blue
+  mobjinfo[MT_BRUISER].bloodcolor = 2; // Green
+  mobjinfo[MT_KNIGHT].bloodcolor = 2; // Green
+
+  // DEHEXTRA
+  mobjinfo[MT_WOLFSS].droppeditem = MT_CLIP;
+  mobjinfo[MT_POSSESSED].droppeditem = MT_CLIP;
+  mobjinfo[MT_SHOTGUY].droppeditem = MT_SHOTGUN;
+  mobjinfo[MT_CHAINGUY].droppeditem = MT_CHAINGUN;
+
+  // [crispy] randomly mirrored death animations
+  for (i = MT_PLAYER; i <= MT_KEEN; ++i)
+  {
+    switch (i)
+    {
+      case MT_FIRE:
+      case MT_TRACER:
+      case MT_SMOKE:
+      case MT_FATSHOT:
+      case MT_BRUISERSHOT:
+      case MT_CYBORG:
+        continue;
+    }
+    mobjinfo[i].flags2 |= MF2_FLIPPABLE;
+  }
+
+  mobjinfo[MT_PUFF].flags2 |= MF2_FLIPPABLE;
+  mobjinfo[MT_BLOOD].flags2 |= MF2_FLIPPABLE;
+
+  for (i = MT_MISC61; i <= MT_MISC69; ++i)
+     mobjinfo[i].flags2 |= MF2_FLIPPABLE;
+
+  mobjinfo[MT_DOGS].flags2 |= MF2_FLIPPABLE;
+
+  for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; ++i)
+    states[i].flags |= STATEF_SKILL5FAST;
 }
 
 void PrintGameVersion(void)

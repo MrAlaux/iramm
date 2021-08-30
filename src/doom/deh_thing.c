@@ -69,6 +69,50 @@ static const bex_thingbits_t bex_thingbitstable[] = {
     {"UNUSED2", 0x10000000},
     {"UNUSED3", 0x20000000},
     {"UNUSED4", 0x40000000},
+    {"TOUCHY",  0x10000000},
+    {"BOUNCES", 0x20000000},
+    {"FRIEND", 0x40000000},
+    {"TRANSLUCENT", 0x80000000},
+};
+
+struct deh_flag_s {
+  const char *name;
+  long value;
+};
+
+#define DEH_MOBJFLAGMAX_MBF21 (sizeof(deh_mobjflags_mbf21) / sizeof(*deh_mobjflags_mbf21))
+
+static const struct deh_flag_s deh_mobjflags_mbf21[] = {
+  {"LOGRAV",         MF2_LOGRAV}, // low gravity
+  {"SHORTMRANGE",    MF2_SHORTMRANGE}, // short missile range
+  {"DMGIGNORED",     MF2_DMGIGNORED}, // other things ignore its attacks
+  {"NORADIUSDMG",    MF2_NORADIUSDMG}, // doesn't take splash damage
+  {"FORCERADIUSDMG", MF2_FORCERADIUSDMG}, // causes splash damage even if target immune
+  {"HIGHERMPROB",    MF2_HIGHERMPROB}, // higher missile attack probability
+  {"RANGEHALF",      MF2_RANGEHALF}, // use half distance for missile attack probability
+  {"NOTHRESHOLD",    MF2_NOTHRESHOLD}, // no targeting threshold
+  {"LONGMELEE",      MF2_LONGMELEE}, // long melee range
+  {"BOSS",           MF2_BOSS}, // full volume see / death sound + splash immunity
+  {"MAP07BOSS1",     MF2_MAP07BOSS1}, // Tag 666 "boss" on doom 2 map 7
+  {"MAP07BOSS2",     MF2_MAP07BOSS2}, // Tag 667 "boss" on doom 2 map 7
+  {"E1M8BOSS",       MF2_E1M8BOSS}, // E1M8 boss
+  {"E2M8BOSS",       MF2_E2M8BOSS}, // E2M8 boss
+  {"E3M8BOSS",       MF2_E3M8BOSS}, // E3M8 boss
+  {"E4M6BOSS",       MF2_E4M6BOSS}, // E4M6 boss
+  {"E4M8BOSS",       MF2_E4M8BOSS}, // E4M8 boss
+  {"RIP",            MF2_RIP}, // projectile rips through targets
+  {"FULLVOLSOUNDS",  MF2_FULLVOLSOUNDS}, // full volume see / death sound
+  { NULL }
+};
+
+static const struct deh_flag_s deh_weaponflags_mbf21[] = {
+  { "NOTHRUST",       WPF_NOTHRUST }, // doesn't thrust Mobj's
+  { "SILENT",         WPF_SILENT }, // weapon is silent
+  { "NOAUTOFIRE",     WPF_NOAUTOFIRE }, // weapon won't autofire in A_WeaponReady
+  { "FLEEMELEE",      WPF_FLEEMELEE }, // monsters consider it a melee weapon
+  { "AUTOSWITCHFROM", WPF_AUTOSWITCHFROM }, // can be switched away from when ammo is picked up
+  { "NOAUTOSWITCHTO", WPF_NOAUTOSWITCHTO }, // cannot be switched to when ammo is picked up
+  { NULL }
 };
 
 DEH_BEGIN_MAPPING(thing_mapping, mobjinfo_t)
@@ -95,6 +139,16 @@ DEH_BEGIN_MAPPING(thing_mapping, mobjinfo_t)
   DEH_MAPPING("Action sound",        activesound)
   DEH_MAPPING("Bits",                flags)
   DEH_MAPPING("Respawn frame",       raisestate)
+  // mbf21
+  DEH_MAPPING("Infighting group",    infighting_group)
+  DEH_MAPPING("Projectile group",    projectile_group)
+  DEH_MAPPING("Splash group",        splash_group)
+  DEH_MAPPING("MBF21 Bits",          flags2)
+  DEH_MAPPING("Rip sound",           ripsound)
+  DEH_MAPPING("Fast speed",          altspeed)
+  DEH_MAPPING("Melee range",         meleerange)
+  // [Woof!]
+  DEH_MAPPING("Blood color",         bloodcolor)
   // [crispy] Thing id to drop after death
   DEH_MAPPING("Dropped item",        droppeditem)
   // [crispy] Distance to switch from missile to melee attack
@@ -167,7 +221,7 @@ static void *DEH_ThingStart(deh_context_t *context, char *line)
 {
     int thing_number = 0;
     mobjinfo_t *mobj;
-    
+
     if (sscanf(line, "Thing %i", &thing_number) != 1)
     {
         DEH_Warning(context, "Parse error on section start");
@@ -182,9 +236,9 @@ static void *DEH_ThingStart(deh_context_t *context, char *line)
         DEH_Warning(context, "Invalid thing number: %i", thing_number);
         return NULL;
     }
-    
+
     mobj = &mobjinfo[thing_number];
-    
+
     return mobj;
 }
 
@@ -193,7 +247,7 @@ static void DEH_ThingParseLine(deh_context_t *context, char *line, void *tag)
     mobjinfo_t *mobj;
     char *variable_name, *value;
     int ivalue;
-    
+
     if (tag == NULL)
        return;
 
@@ -208,13 +262,13 @@ static void DEH_ThingParseLine(deh_context_t *context, char *line, void *tag)
         DEH_Warning(context, "Failed to parse assignment");
         return;
     }
-    
+
 //    printf("Set %s to %s for mobj\n", variable_name, value);
 
     // all values are integers
 
     ivalue = atoi(value);
-    
+
     // [crispy] support BEX bits mnemonics in Things fields
     if (!ivalue && !strcasecmp(variable_name, "bits"))
     {

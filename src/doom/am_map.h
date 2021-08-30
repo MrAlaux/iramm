@@ -27,7 +27,6 @@
 #define AM_MSGENTERED (AM_MSGHEADER | ('e'<<8))
 #define AM_MSGEXITED (AM_MSGHEADER | ('x'<<8))
 
-
 // Called by main loop.
 boolean AM_Responder (event_t* ev);
 
@@ -41,7 +40,6 @@ void AM_Drawer (void);
 // Called to force the automap to quit
 // if the level is completed while it is up.
 void AM_Stop (void);
-
 
 extern cheatseq_t cheat_amap;
 

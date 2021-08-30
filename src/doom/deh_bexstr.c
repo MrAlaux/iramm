@@ -331,6 +331,14 @@ static const bex_string_t bex_stringtable[] = {
     {"BGFLAT15", "RROCK13"},
     {"BGFLAT31", "RROCK19"},
     {"BGCASTCALL", "BOSSBACK"},
+    // Ty 04/08/98 - added 5 general purpose startup announcement
+    // strings for hacker use.  See m_menu.c
+    {"STARTUP1", ""},
+    {"STARTUP2", ""},
+    {"STARTUP3", ""},
+    {"STARTUP4", ""},
+    {"STARTUP5", ""},
+    {"SAVEGAMENAME", ""},  // Ty 05/03/98
 };
 
 static void *DEH_BEXStrStart(deh_context_t *context, char *line)
