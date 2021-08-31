@@ -14,7 +14,7 @@
 //
 // DESCRIPTION:
 //	Mission start screen wipe/melt, special effects.
-//	
+//
 
 
 #ifndef __F_WIPE_H__
@@ -24,40 +24,15 @@
 //                       SCREEN WIPE PACKAGE
 //
 
-enum
-{
+enum {
     // simple gradual pixel change for 8-bit only
     wipe_ColorXForm,
-    
-    // weird screen melt
-    wipe_Melt,	
-
+    wipe_Melt, // weird screen melt
     wipe_NUMWIPES
 };
 
-int
-wipe_StartScreen
-( int		x,
-  int		y,
-  int		width,
-  int		height );
-
-
-int
-wipe_EndScreen
-( int		x,
-  int		y,
-  int		width,
-  int		height );
-
-
-int
-wipe_ScreenWipe
-( int		wipeno,
-  int		x,
-  int		y,
-  int		width,
-  int		height,
-  int		ticks );
+int wipe_StartScreen (int x, y, width, height);
+int wipe_EndScreen (int x, y, width, height);
+int wipe_ScreenWipe (int wipeno, x, y, width, height, ticks);
 
 #endif

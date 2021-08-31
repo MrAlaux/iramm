@@ -14,7 +14,7 @@
 //
 // DESCRIPTION:
 //   Duh.
-// 
+//
 
 
 #ifndef __G_GAME__
@@ -24,10 +24,15 @@
 #include "d_event.h"
 #include "d_ticcmd.h"
 
-
 //
 // GAME
 //
+
+// killough 5/2/98: number of bytes reserved for saving options
+#define GAME_OPTION_SIZE 64
+
+#define MBF21_GAME_OPTION_SIZE (21 + MBF21_COMP_TOTAL)
+
 void G_DeathMatchSpawnPlayer (int playernum);
 
 void G_InitNew (skill_t skill, int episode, int map);
@@ -64,7 +69,7 @@ void G_WorldDone (void);
 
 // Read current data from inputs and build a player movement command.
 
-void G_BuildTiccmd (ticcmd_t *cmd, int maketic); 
+void G_BuildTiccmd (ticcmd_t *cmd, int maketic);
 
 void G_Ticker (void);
 boolean G_Responder (event_t*	ev);
@@ -73,6 +78,14 @@ void G_ScreenShot (void);
 
 void G_DrawMouseSpeedBox(void);
 int G_VanillaVersionCode(void);
+
+byte *G_ReadOptions(byte *demo_p);
+byte *G_ReadOptionsMBF21(byte *demo_p);
+byte *G_WriteOptions(byte *demo_p);
+
+extern int  default_complevel;
+
+extern int  defaultskill;      //jff 3/24/98 default skill
 
 extern int vanilla_savegame_limit;
 extern int vanilla_demo_limit;

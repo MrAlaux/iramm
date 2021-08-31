@@ -135,6 +135,9 @@ int             extrakills;             // [crispy] count spawned monsters
 int             totalleveltimes;        // [crispy] CPhipps - total time for all completed levels
 int             demostarttic;           // [crispy] fix revenant internal demo bug
 
+static int      complevel = MBFVERSION;
+int             default_complevel;
+
 char           *demoname;
 const char     *orig_demoname; // [crispy] the name originally chosen for the demo, i.e. without "-00000"
 boolean         demorecording;
@@ -234,6 +237,9 @@ static boolean *joybuttons = &joyarray[1];		// allow [-1]
 static char     savename[256]; // [crispy] moved here, made static
 static int      savegameslot;
 static char     savedescription[32];
+
+//jff 3/24/98 declare startskill external, define defaultskill here
+int defaultskill;               //note 1-based
 
 #define	BODYQUESIZE	32
 
@@ -2361,6 +2367,234 @@ G_DeferedInitNew
     }
 }
 
+// killough 7/19/98: Marine's best friend :)
+static int G_GetHelpers(void)
+{
+  int j = M_CheckParm ("-dog");
+
+  if (!j)
+    j = M_CheckParm ("-dogs");
+  return j ? j+1 < myargc ? atoi(myargv[j+1]) : 1 : default_dogs;
+}
+
+// [FG] support named complevels on the command line, e.g. "-complevel boom",
+
+static int G_GetNamedComplevel (const char *arg)
+{
+  int i;
+
+  const struct {
+    int level;
+    const char *const name;
+    int exe;
+  } named_complevel[] = {
+    {109, "vanilla", -1},
+    {109, "doom2",   exe_doom_1_9},
+    {109, "1.9",     exe_doom_1_9},
+    {109, "2",       exe_doom_1_9},
+    {109, "ultimate",exe_ultimate},
+    {109, "3",       exe_ultimate},
+    {109, "final",   exe_final},
+    {109, "tnt",     exe_final},
+    {109, "plutonia",exe_final},
+    {109, "4",       exe_final},
+    {202, "boom",    -1},
+    {202, "9",       -1},
+    {203, "mbf",     -1},
+    {203, "11",      -1},
+    {221, "mbf21",   -1},
+    {221, "21",      -1},
+  };
+
+  for (i = 0; i < sizeof(named_complevel)/sizeof(*named_complevel); i++)
+  {
+    if (!strcasecmp(arg, named_complevel[i].name))
+    {
+      if (named_complevel[i].exe >= 0)
+        gameversion = named_complevel[i].exe;
+
+      return named_complevel[i].level;
+    }
+  }
+
+  return -1;
+}
+
+static int G_GetDefaultComplevel()
+{
+  switch (default_complevel)
+  {
+    case 0:
+      return 109;
+    case 1:
+      return 202;
+    case 2:
+      return MBFVERSION;
+    default:
+      return MBF21VERSION;
+  }
+}
+
+static int G_GetWadComplevel(void)
+{
+  int lumpnum;
+
+  lumpnum = W_CheckNumForName("COMPLVL");
+
+  if (lumpnum >= 0)
+  {
+    int length;
+    char *data = NULL;
+
+    length = W_LumpLength(lumpnum);
+    data = W_CacheLumpNum(lumpnum, PU_CACHE);
+
+    if (length == 7 && !strncasecmp("vanilla", data, 7))
+      return 109;
+    else if (length == 4 && !strncasecmp("boom", data, 4))
+      return 202;
+    else if (length == 3 && !strncasecmp("mbf", data, 3))
+      return 203;
+    else if (length == 5 && !strncasecmp("mbf21", data, 5))
+      return 221;
+  }
+
+  return -1;
+}
+
+static void G_MBFComp()
+{
+  comp[comp_respawn] = 1;
+  comp[comp_ledgeblock] = 0;
+  comp[comp_friendlyspawn] = 1;
+}
+
+static void G_BoomComp()
+{
+  comp[comp_telefrag] = 1;
+  comp[comp_dropoff]  = 0;
+  comp[comp_falloff]  = 1;
+  comp[comp_pursuit]  = 1;
+  comp[comp_staylift] = 1;
+  comp[comp_zombie]   = 1;
+  comp[comp_infcheat] = 1;
+  comp[comp_respawn]  = 1;
+  comp[comp_ledgeblock] = 0;
+  comp[comp_friendlyspawn] = 1;
+}
+
+// killough 3/1/98: function to reload all the default parameter
+// settings before a new game begins
+
+void G_ReloadDefaults(void)
+{
+  // killough 3/1/98: Initialize options based on config file
+  // (allows functions above to load different values for demos
+  // and savegames without messing up defaults).
+
+  variable_friction = allow_pushers = true;
+
+  monsters_remember = default_monsters_remember;   // remember former enemies
+
+  monster_infighting = default_monster_infighting; // killough 7/19/98
+
+  dogs = netgame ? 0 : G_GetHelpers();             // killough 7/19/98
+  dog_jumping = default_dog_jumping;
+
+  distfriend = default_distfriend;                 // killough 8/8/98
+
+  monster_backing = default_monster_backing;     // killough 9/8/98
+
+  monster_avoid_hazards = default_monster_avoid_hazards; // killough 9/9/98
+
+  monster_friction = default_monster_friction;     // killough 10/98
+
+  help_friends = default_help_friends;             // killough 9/9/98
+
+  monkeys = default_monkeys;
+
+  // jff 1/24/98 reset play mode to command line spec'd version
+  // killough 3/1/98: moved to here
+  respawnparm = clrespawnparm;
+  fastparm = clfastparm;
+  nomonsters = clnomonsters;
+
+  //jff 3/24/98 set startskill from defaultskill in config file, unless
+  // it has already been set by a -skill parameter
+  if (startskill==sk_none)
+    startskill = (skill_t)(defaultskill-1);
+
+  demoplayback = false;
+  singledemo = false;            // killough 9/29/98: don't stop after 1 demo
+  netdemo = false;
+
+  // killough 2/21/98:
+  memset(playeringame+1, 0, sizeof(*playeringame)*(MAXPLAYERS-1));
+
+  consoleplayer = 0;
+
+  compatibility = false;     // killough 10/98: replaced by comp[] vector
+  memcpy(comp, default_comp, sizeof comp);
+
+  complevel = G_GetDefaultComplevel();
+
+  complevel = G_GetWadComplevel();
+
+  {
+    int i = M_CheckParm("-complevel");
+    if (i && (1+i) < myargc) {
+      int l = G_GetNamedComplevel(myargv[i+1]);
+      if (l > -1) complevel = l;
+    }
+  }
+  if (complevel == -1)
+    complevel = G_GetDefaultComplevel();
+
+  demo_version = complevel;
+
+  if (!mbf21)
+    G_MBFComp();
+
+  M_ResetSetupMenu();
+
+  // killough 3/31/98, 4/5/98: demo sync insurance
+  demo_insurance = (default_demo_insurance == 1);
+
+  // haleyjd
+  rngseed = time(NULL);
+
+  if (demo_version < 203)
+  {
+    monster_infighting = 1;
+    monster_backing = 0;
+    monster_avoid_hazards = 0;
+    monster_friction = 0;
+    help_friends = 0;
+
+    dogs = 0;
+    dog_jumping = 0;
+
+    monkeys = 0;
+
+    if (demo_version == 109)
+    {
+      compatibility = true;
+      memset(comp, 0xff, sizeof comp);
+    }
+    else if (demo_version == 202)
+    {
+      memset(comp, 0, sizeof comp);
+      G_BoomComp();
+    }
+  }
+  else if (mbf21)
+  {
+    variable_friction = 1;
+    allow_pushers = 1;
+    demo_insurance = 0;
+  }
+}
+
 
 void G_DoNewGame (void)
 {
@@ -2744,6 +2978,26 @@ void G_WriteDemoTiccmd (ticcmd_t* cmd)
 //
 void G_RecordDemo (const char *name)
 {
+if (gameversion == exe_boom||exe_mbf||exe_mbf21)
+{
+  int i;
+
+  demo_insurance = mbf21 ? 0 : (default_demo_insurance!=0);     // killough 12/98
+
+  usergame = false;
+  if (demoname) (free)(demoname);
+  demoname = (malloc)(strlen(name) + 5);
+  AddDefaultExtension(strcpy(demoname, name), ".lmp");  // 1/18/98 killough
+  i = M_CheckParm ("-maxdemo");
+  if (i && i<myargc-1)
+    maxdemosize = atoi(myargv[i+1])*1024;
+  if (maxdemosize < 0x20000)  // killough
+    maxdemosize = 0x20000;
+  demobuffer = malloc(maxdemosize); // killough
+  demorecording = true;
+}
+else
+{
     size_t demoname_size;
     int i;
     int maxsize;
@@ -2788,6 +3042,269 @@ void G_RecordDemo (const char *name)
 
     demorecording = true;
 }
+}
+
+// These functions are used to read and write game-specific options in demos
+// and savegames so that demo sync is preserved and savegame restoration is
+// complete. Not all options (for example "compatibility"), however, should
+// be loaded and saved here. It is extremely important to use the same
+// positions as before for the variables, so if one becomes obsolete, the
+// byte(s) should still be skipped over or padded with 0's.
+// Lee Killough 3/1/98
+
+static int G_GameOptionSize(void) {
+  return mbf21 ? MBF21_GAME_OPTION_SIZE : GAME_OPTION_SIZE;
+}
+
+static byte* G_WriteOptionsMBF21(byte* demo_p)
+{
+  int i;
+  byte *target = demo_p + MBF21_GAME_OPTION_SIZE;
+
+  *demo_p++ = monsters_remember;
+
+  *demo_p++ = respawnparm;
+  *demo_p++ = fastparm;
+  *demo_p++ = nomonsters;
+
+  *demo_p++ = (byte)((rngseed >> 24) & 0xff);
+  *demo_p++ = (byte)((rngseed >> 16) & 0xff);
+  *demo_p++ = (byte)((rngseed >>  8) & 0xff);
+  *demo_p++ = (byte)( rngseed        & 0xff);
+
+  *demo_p++ = monster_infighting;
+  *demo_p++ = dogs;
+
+  *demo_p++ = (distfriend >> 8) & 0xff;
+  *demo_p++ =  distfriend       & 0xff;
+
+  *demo_p++ = monster_backing;
+  *demo_p++ = monster_avoid_hazards;
+  *demo_p++ = monster_friction;
+  *demo_p++ = help_friends;
+  *demo_p++ = dog_jumping;
+  *demo_p++ = monkeys;
+
+  *demo_p++ = MBF21_COMP_TOTAL;
+
+  for (i = 0; i < MBF21_COMP_TOTAL; i++)
+    *demo_p++ = comp[i] != 0;
+
+  if (demo_p != target)
+    I_Error("mbf21_WriteOptions: MBF21_GAME_OPTION_SIZE is too small");
+
+  return demo_p;
+}
+
+byte *G_WriteOptions(byte *demo_p)
+{
+  byte *target = demo_p + GAME_OPTION_SIZE;
+
+  if (mbf21)
+  {
+    return G_WriteOptionsMBF21(demo_p);
+  }
+
+  *demo_p++ = monsters_remember;  // part of monster AI
+
+  *demo_p++ = variable_friction;  // ice & mud
+
+  *demo_p++ = allow_pushers;      // MT_PUSH Things
+
+  *demo_p++ = 0;
+
+  // killough 3/6/98: add parameters to savegame, move around some in demos
+  *demo_p++ = respawnparm;
+  *demo_p++ = fastparm;
+  *demo_p++ = nomonsters;
+
+  *demo_p++ = demo_insurance;        // killough 3/31/98
+
+  // killough 3/26/98: Added rngseed. 3/31/98: moved here
+  *demo_p++ = (byte)((rngseed >> 24) & 0xff);
+  *demo_p++ = (byte)((rngseed >> 16) & 0xff);
+  *demo_p++ = (byte)((rngseed >>  8) & 0xff);
+  *demo_p++ = (byte) (rngseed        & 0xff);
+
+  // Options new to v2.03 begin here
+
+  *demo_p++ = monster_infighting;   // killough 7/19/98
+
+  *demo_p++ = dogs;                 // killough 7/19/98
+
+  *demo_p++ = (distfriend >> 8) & 0xff;  // killough 8/8/98
+  *demo_p++ =  distfriend       & 0xff;  // killough 8/8/98
+
+  *demo_p++ = monster_backing;         // killough 9/8/98
+
+  *demo_p++ = monster_avoid_hazards;    // killough 9/9/98
+
+  *demo_p++ = monster_friction;         // killough 10/98
+
+  *demo_p++ = help_friends;             // killough 9/9/98
+
+  *demo_p++ = dog_jumping;
+
+  *demo_p++ = monkeys;
+
+  {   // killough 10/98: a compatibility vector now
+    int i;
+    for (i=0; i < COMP_TOTAL; i++)
+      *demo_p++ = comp[i] != 0;
+  }
+
+  //----------------
+  // Padding at end
+  //----------------
+  while (demo_p < target)
+    *demo_p++ = 0;
+
+  if (demo_p != target)
+    I_Error("G_WriteOptions: GAME_OPTION_SIZE is too small");
+
+  return target;
+}
+
+// Same, but read instead of write
+
+byte *G_ReadOptionsMBF21(byte *demo_p)
+{
+  int i, count;
+
+  // not configurable in mbf21
+  variable_friction = 1;
+  allow_pushers = 1;
+  demo_insurance = 0;
+
+  monsters_remember = *demo_p++;
+
+  respawnparm = *demo_p++;
+  fastparm = *demo_p++;
+  nomonsters = *demo_p++;
+
+  rngseed  = *demo_p++ & 0xff;
+  rngseed <<= 8;
+  rngseed += *demo_p++ & 0xff;
+  rngseed <<= 8;
+  rngseed += *demo_p++ & 0xff;
+  rngseed <<= 8;
+  rngseed += *demo_p++ & 0xff;
+
+  monster_infighting = *demo_p++;
+  dogs = *demo_p++;
+
+  distfriend  = *demo_p++ << 8;
+  distfriend += *demo_p++;
+
+  monster_backing = *demo_p++;
+  monster_avoid_hazards = *demo_p++;
+  monster_friction = *demo_p++;
+  help_friends = *demo_p++;
+  dog_jumping = *demo_p++;
+  monkeys = *demo_p++;
+
+  count = *demo_p++;
+
+  if (count > MBF21_COMP_TOTAL)
+    I_Error("Encountered unknown mbf21 compatibility options!");
+
+  for (i = 0; i < count; i++)
+    comp[i] = *demo_p++;
+
+  return demo_p;
+}
+
+byte *G_ReadOptions(byte *demo_p)
+{
+  byte *target = demo_p + GAME_OPTION_SIZE;
+
+  monsters_remember = *demo_p++;
+
+  variable_friction = *demo_p;  // ice & mud
+  demo_p++;
+
+  allow_pushers = *demo_p;      // MT_PUSH Things
+  demo_p++;
+
+  demo_p++;
+
+  // killough 3/6/98: add parameters to savegame, move from demo
+  respawnparm = *demo_p++;
+  fastparm = *demo_p++;
+  nomonsters = *demo_p++;
+
+  demo_insurance = *demo_p++;              // killough 3/31/98
+
+  // killough 3/26/98: Added rngseed to demos; 3/31/98: moved here
+
+  rngseed  = *demo_p++ & 0xff;
+  rngseed <<= 8;
+  rngseed += *demo_p++ & 0xff;
+  rngseed <<= 8;
+  rngseed += *demo_p++ & 0xff;
+  rngseed <<= 8;
+  rngseed += *demo_p++ & 0xff;
+
+  // Options new to v2.03
+  if (demo_version >= 203)
+    {
+      monster_infighting = *demo_p++;   // killough 7/19/98
+
+      dogs = *demo_p++;                 // killough 7/19/98
+
+      distfriend = *demo_p++ << 8;      // killough 8/8/98
+      distfriend+= *demo_p++;
+
+      monster_backing = *demo_p++;     // killough 9/8/98
+
+      monster_avoid_hazards = *demo_p++; // killough 9/9/98
+
+      monster_friction = *demo_p++;      // killough 10/98
+
+      help_friends = *demo_p++;          // killough 9/9/98
+
+      dog_jumping = *demo_p++;           // killough 10/98
+
+      monkeys = *demo_p++;
+
+      {   // killough 10/98: a compatibility vector now
+	int i;
+	for (i=0; i < COMP_TOTAL; i++)
+	  comp[i] = *demo_p++;
+      }
+
+      G_MBFComp();
+
+      // Options new to v2.04, etc.
+      if (demo_version >= 204)
+	;
+    }
+  else  // defaults for versions < 2.02
+    {
+      int i;  // killough 10/98: a compatibility vector now
+      for (i=0; i < COMP_TOTAL; i++)
+	comp[i] = compatibility;
+
+      if (demo_version == 202)
+        G_BoomComp();
+
+      monster_infighting = 1;           // killough 7/19/98
+
+      monster_backing = 0;              // killough 9/8/98
+
+      monster_avoid_hazards = 0;        // killough 9/9/98
+
+      monster_friction = 0;             // killough 10/98
+
+      help_friends = 0;                 // killough 9/9/98
+
+      dogs = 0;                         // killough 7/19/98
+      dog_jumping = 0;                  // killough 10/98
+      monkeys = 0;
+    }
+
+  return target;
+}
 
 // Get the demo version code appropriate for the version set in gameversion.
 int G_VanillaVersionCode(void)
@@ -2807,6 +3324,114 @@ int G_VanillaVersionCode(void)
 }
 
 void G_BeginRecording (void)
+{
+if (gameversion == exe_boom||exe_mbf||exe_mbf21)
+{
+  int i;
+
+  demo_p = demobuffer;
+
+  if (complevel == MBFVERSION || complevel == MBF21VERSION)
+  {
+    if (complevel == MBF21VERSION)
+    {
+      longtics = true;
+      *demo_p++ = MBF21VERSION;
+    }
+    else
+    {
+  *demo_p++ = MBFVERSION;
+    }
+
+  // signature
+  *demo_p++ = 0x1d;
+  *demo_p++ = 'M';
+  *demo_p++ = 'B';
+  *demo_p++ = 'F';
+  *demo_p++ = 0xe6;
+  *demo_p++ = '\0';
+
+  if (complevel != MBF21VERSION)
+  {
+  // killough 2/22/98: save compatibility flag in new demos
+  *demo_p++ = compatibility;       // killough 2/22/98
+  }
+
+  *demo_p++ = gameskill;
+  *demo_p++ = gameepisode;
+  *demo_p++ = gamemap;
+  *demo_p++ = deathmatch;
+  *demo_p++ = consoleplayer;
+
+  demo_p = G_WriteOptions(demo_p); // killough 3/1/98: Save game options
+
+  for (i=0 ; i<MAXPLAYERS ; i++)
+    *demo_p++ = playeringame[i];
+
+  // killough 2/28/98:
+  // We always store at least MIN_MAXPLAYERS bytes in demo, to
+  // support enhancements later w/o losing demo compatibility
+
+  for (; i<MIN_MAXPLAYERS; i++)
+    *demo_p++ = 0;
+  }
+  else if (complevel == 202)
+  {
+    *demo_p++ = 202;
+
+    // signature
+    *demo_p++ = 0x1d;
+    *demo_p++ = 'B';
+    *demo_p++ = 'o';
+    *demo_p++ = 'o';
+    *demo_p++ = 'm';
+    *demo_p++ = 0xe6;
+
+    /* CPhipps - save compatibility level in demos */
+    *demo_p++ = 0;
+
+    *demo_p++ = gameskill;
+    *demo_p++ = gameepisode;
+    *demo_p++ = gamemap;
+    *demo_p++ = deathmatch;
+    *demo_p++ = consoleplayer;
+
+    demo_p = G_WriteOptions(demo_p); // killough 3/1/98: Save game options
+
+    for (i=0 ; i<MAXPLAYERS ; i++)
+      *demo_p++ = playeringame[i];
+
+    // killough 2/28/98:
+    // We always store at least MIN_MAXPLAYERS bytes in demo, to
+    // support enhancements later w/o losing demo compatibility
+
+    for (; i<MIN_MAXPLAYERS; i++)
+      *demo_p++ = 0;
+  }
+  else if (complevel == 109)
+  {
+    longtics = !!M_CheckParm("-longtics");
+    if (longtics)
+    {
+      *demo_p++ = 111;
+    }
+    else
+    {
+    *demo_p++ = 109;
+    }
+    *demo_p++ = gameskill;
+    *demo_p++ = gameepisode;
+    *demo_p++ = gamemap;
+    *demo_p++ = deathmatch;
+    *demo_p++ = respawnparm;
+    *demo_p++ = fastparm;
+    *demo_p++ = nomonsters;
+    *demo_p++ = consoleplayer;
+    for (i=0; i<4; i++)  // intentionally hard-coded 4 -- killough
+      *demo_p++ = playeringame[i];
+  }
+}
+else
 {
     int             i;
 
@@ -2847,6 +3472,7 @@ void G_BeginRecording (void)
 
     for (i=0 ; i<MAXPLAYERS ; i++)
 	*demo_p++ = playeringame[i];
+}
 }
 
 
@@ -2911,6 +3537,241 @@ static const char *DemoVersionDescription(int version)
 }
 
 void G_DoPlayDemo (void)
+{
+if (gameversion == (exe_boom||exe_mbf||exe_mbf21)
+{
+  skill_t skill;
+  int i, episode, map;
+  char basename[9];
+  int demover;
+  byte *option_p = NULL;      // killough 11/98
+
+  if (gameaction != ga_loadgame)      // killough 12/98: support -loadgame
+    basetic = gametic;  // killough 9/29/98
+
+  ExtractFileBase(defdemoname,basename);           // killough
+
+  demobuffer = demo_p = W_CacheLumpName (basename, PU_STATIC);  // killough
+
+  // [FG] ignore too short demo lumps
+  if (W_LumpLength(W_GetNumForName(basename)) < 0xd)
+  {
+    gameaction = ga_nothing;
+    demoplayback = true;
+    G_CheckDemoStatus();
+    return;
+  }
+
+  demover = *demo_p++;
+
+  // skip UMAPINFO demo header
+  if (demover == 255)
+  {
+    // we check for the PR+UM signature.
+    // Eternity Engine also uses 255 demover, with other signatures.
+    if (strncmp((const char *)demo_p, "PR+UM", 5) != 0)
+    {
+      fprintf(stderr, "G_DoPlayDemo: Extended demo format 255 found, but \"PR+UM\" string not found.\n");
+      gameaction = ga_nothing;
+      demoplayback = true;
+      G_CheckDemoStatus();
+      return;
+    }
+
+    demo_p += 6;
+
+    if (*demo_p++ != 1)
+    {
+      I_Error("G_DoPlayDemo: Unknown demo format.");
+    }
+
+    // the defunct format had only one extension (in two bytes)
+    if (*demo_p++ != 1 || *demo_p++ != 0)
+    {
+      I_Error("G_DoPlayDemo: Unknown demo format.");
+    }
+
+    if (*demo_p++ != 8)
+    {
+      I_Error("G_DoPlayDemo: Unknown demo format.");
+    }
+
+    if (strncmp((const char *)demo_p, "UMAPINFO", 8))
+    {
+      I_Error("G_DoPlayDemo: Unknown demo format.");
+    }
+
+    demo_p += 8;
+
+    // skip map name
+    demo_p += 8;
+
+    // "real" demover
+    demover = *demo_p++;
+  }
+
+  // killough 2/22/98, 2/28/98: autodetect old demos and act accordingly.
+  // Old demos turn on demo_compatibility => compatibility; new demos load
+  // compatibility flag, and other flags as well, as a part of the demo.
+
+  demo_version = demover;     // killough 7/19/98: use the version id stored in demo
+
+  // [FG] PrBoom's own demo format starts with demo version 210
+  if (demover >= 210 && demover != MBF21VERSION)
+  {
+    fprintf(stderr,"G_DoPlayDemo: Unknown demo format %d.\n", demover);
+    gameaction = ga_nothing;
+    demoplayback = true;
+    G_CheckDemoStatus();
+    return;
+  }
+
+  longtics = false;
+
+  if (demover < 200)     // Autodetect old demos
+    {
+      if (demover == 111)
+      {
+        longtics = true;
+      }
+      compatibility = true;
+      memset(comp, 0xff, sizeof comp);  // killough 10/98: a vector now
+
+      // killough 3/2/98: force these variables to be 0 in demo_compatibility
+
+      variable_friction = 0;
+
+      weapon_recoil = 0;
+
+      allow_pushers = 0;
+
+      monster_infighting = 1;           // killough 7/19/98
+
+      dogs = 0;                         // killough 7/19/98
+      dog_jumping = 0;                  // killough 10/98
+
+      monster_backing = 0;              // killough 9/8/98
+
+      monster_avoid_hazards = 0;        // killough 9/9/98
+
+      monster_friction = 0;             // killough 10/98
+      help_friends = 0;                 // killough 9/9/98
+      monkeys = 0;
+
+      // killough 3/6/98: rearrange to fix savegame bugs (moved fastparm,
+      // respawnparm, nomonsters flags to G_LoadOptions()/G_SaveOptions())
+
+      if ((skill=demover) >= 100)         // For demos from versions >= 1.4
+        {
+          skill = *demo_p++;
+          episode = *demo_p++;
+          map = *demo_p++;
+          deathmatch = *demo_p++;
+          respawnparm = *demo_p++;
+          fastparm = *demo_p++;
+          nomonsters = *demo_p++;
+          consoleplayer = *demo_p++;
+        }
+      else
+        {
+          episode = *demo_p++;
+          map = *demo_p++;
+          deathmatch = respawnparm = fastparm =
+            nomonsters = consoleplayer = 0;
+        }
+    }
+  else    // new versions of demos
+    {
+      demo_p += 6;               // skip signature;
+
+      if (demover == MBF21VERSION)
+      {
+        longtics = true;
+        compatibility = 0;
+      }
+      else
+      {
+      compatibility = *demo_p++;       // load old compatibility flag
+      }
+      skill = *demo_p++;
+      episode = *demo_p++;
+      map = *demo_p++;
+      deathmatch = *demo_p++;
+      consoleplayer = *demo_p++;
+
+      // killough 11/98: save option pointer for below
+      if (demover >= 203)
+	option_p = demo_p;
+
+      // killough 3/1/98: Read game options
+      if (mbf21)
+        demo_p = G_ReadOptionsMBF21(demo_p);
+      else
+        demo_p = G_ReadOptions(demo_p);
+
+      if (demover == 200)        // killough 6/3/98: partially fix v2.00 demos
+        demo_p += 256-G_GameOptionSize();
+    }
+
+  if (demo_compatibility)  // only 4 players can exist in old demos
+    {
+      for (i=0; i<4; i++)  // intentionally hard-coded 4 -- killough
+        playeringame[i] = *demo_p++;
+      for (;i < MAXPLAYERS; i++)
+        playeringame[i] = 0;
+    }
+  else
+    {
+      for (i=0 ; i < MAXPLAYERS; i++)
+        playeringame[i] = *demo_p++;
+      demo_p += MIN_MAXPLAYERS - MAXPLAYERS;
+    }
+
+  if (playeringame[1])
+    netgame = netdemo = true;
+
+  // don't spend a lot of time in loadlevel
+
+  if (gameaction != ga_loadgame)      // killough 12/98: support -loadgame
+    {
+      // killough 2/22/98:
+      // Do it anyway for timing demos, to reduce timing noise
+      precache = timingdemo;
+
+      G_InitNew(skill, episode, map);
+
+      // killough 11/98: If OPTIONS were loaded from the wad in G_InitNew(),
+      // reload any demo sync-critical ones from the demo itself, to be exactly
+      // the same as during recording.
+
+      if (option_p)
+      {
+        if (mbf21)
+          G_ReadOptionsMBF21(option_p);
+        else
+          G_ReadOptions(option_p);
+      }
+    }
+
+  precache = true;
+  usergame = false;
+  demoplayback = true;
+
+  for (i=0; i<MAXPLAYERS;i++)         // killough 4/24/98
+    players[i].cheats = 0;
+
+  gameaction = ga_nothing;
+
+  // [FG] report compatibility mode
+  fprintf(stderr, "G_DoPlayDemo: Playing demo with %s (%d) compatibility.\n",
+    demover == MBF21VERSION ? "MBF21" :
+    demover >= 203 ? "MBF" :
+    demover >= 200 ? (compatibility ? "Boom compatibility" : "Boom") :
+    gameversion == exe_final ? "Final Doom" :
+    gameversion == exe_ultimate ? "Ultimate Doom" :
+    "Doom 1.9", demover);
+}
+else
 {
     skill_t skill;
     int i, lumpnum, episode, map;
@@ -3058,6 +3919,7 @@ void G_DoPlayDemo (void)
 	    deftotaldemotics++;
 	}
     }
+}
 }
 
 //

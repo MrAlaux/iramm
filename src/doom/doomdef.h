@@ -46,17 +46,15 @@
 
 // The current state of the game: whether we are
 // playing, gazing at the intermission screen,
-// the game final animation, or a demo. 
-typedef enum
-{
+// the game final animation, or a demo.
+typedef enum {
     GS_LEVEL,
     GS_INTERMISSION,
     GS_FINALE,
     GS_DEMOSCREEN,
 } gamestate_t;
 
-typedef enum
-{
+typedef enum {
     ga_nothing,
     ga_loadlevel,
     ga_newgame,
@@ -72,39 +70,40 @@ typedef enum
 //
 // Difficulty/skill settings/filters.
 //
+// These are Thing flags
 
 // Skill flags.
 #define	MTF_EASY		1
 #define	MTF_NORMAL		2
 #define	MTF_HARD		4
-
 // Deaf monsters/do not react to sound.
 #define	MTF_AMBUSH		8
+
+// killough 11/98
+#define MTF_NOTSINGLE          16
+#define MTF_NOTDM              32
+#define MTF_NOTCOOP            64
+#define MTF_FRIEND            128
+#define MTF_RESERVED          256
 
 
 //
 // Key cards.
 //
-typedef enum
-{
+typedef enum {
     it_bluecard,
     it_yellowcard,
     it_redcard,
     it_blueskull,
     it_yellowskull,
     it_redskull,
-    
     NUMCARDS
-    
 } card_t;
-
-
 
 // The defined weapons,
 //  including a marker indicating
 //  user has not changed weapon.
-typedef enum
-{
+typedef enum {
     wp_fist,
     wp_pistol,
     wp_shotgun,
@@ -116,29 +115,23 @@ typedef enum
     wp_supershotgun,
 
     NUMWEAPONS,
-    
-    // No pending weapon change.
-    wp_nochange
-
+    wp_nochange // No pending weapon change.
 } weapontype_t;
 
 
 // Ammunition types defined.
-typedef enum
-{
+typedef enum {
     am_clip,	// Pistol / chaingun ammo.
     am_shell,	// Shotgun / double barreled shotgun.
     am_cell,	// Plasma rifle, BFG.
     am_misl,	// Missile launcher.
     NUMAMMO,
-    am_noammo	// Unlimited for chainsaw / fist.	
-
+    am_noammo	// Unlimited for chainsaw / fist.
 } ammotype_t;
 
 
 // Power up artifacts.
-typedef enum
-{
+typedef enum {
     pw_invulnerability,
     pw_strength,
     pw_invisibility,
@@ -149,7 +142,6 @@ typedef enum
     // [crispy] showfps and mapcoords are now "powers"
     pw_showfps,
     pw_mapcoords
-    
 } powertype_t;
 
 
@@ -165,7 +157,35 @@ typedef enum
     INVISTICS	= (60*TICRATE),
     INFRATICS	= (120*TICRATE),
     IRONTICS	= (60*TICRATE)
-    
+
 } powerduration_t;
+
+// phares 4/19/98:
+// Defines Setup Screen groups that config variables appear in.
+// Used when resetting the defaults for every item in a Setup group.
+
+typedef enum {
+  ss_none,
+  ss_keys,
+  ss_weap,
+  ss_stat,
+  ss_auto,
+  ss_enem,
+  ss_mess,
+  ss_chat,
+  ss_gen,       // killough 10/98
+  ss_comp,      // killough 10/98
+  ss_max
+} ss_types;
+
+// phares 3/20/98:
+//
+// Player friction is variable, based on controlling
+// linedefs. More friction can create mud, sludge,
+// magnetized floors, etc. Less friction can create ice.
+
+#define MORE_FRICTION_MOMENTUM 15000       // mud factor based on momentum
+#define ORIG_FRICTION          0xE800      // original value
+#define ORIG_FRICTION_FACTOR   2048        // original value
 
 #endif          // __DOOMDEF__

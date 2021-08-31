@@ -52,7 +52,6 @@ typedef struct
     int		downstate;
     int		readystate;
     int		atkstate;
-    int     holdstate; // [Nugget]
     int		flashstate;
     // mbf21
     int         ammopershot;

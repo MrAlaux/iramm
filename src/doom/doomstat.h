@@ -71,6 +71,63 @@ extern GameVariant_t    gamevariant;
 // Set if homebrew PWAD stuff has been added.
 extern  boolean	modifiedgame;
 
+// compatibility with old engines (monster behavior, metrics, etc.)
+extern int compatibility, default_compatibility;          // killough 1/31/98
+
+extern int demo_version;           // killough 7/19/98: Version of demo
+
+// Only true when playing back an old demo -- used only in "corner cases"
+// which break playback but are otherwise unnoticable or are just desirable:
+
+#define demo_compatibility (demo_version < 200) /* killough 11/98: macroized */
+
+#define mbf21 (demo_version == 221)
+
+// killough 7/19/98: whether monsters should fight against each other
+extern int monster_infighting, default_monster_infighting;
+
+extern int monkeys, default_monkeys;
+
+extern int demo_insurance, default_demo_insurance;      // killough 4/5/98
+
+// -------------------------------------------
+// killough 10/98: compatibility vector
+
+enum {
+  comp_telefrag,
+  comp_dropoff,
+  comp_vile,
+  comp_pain,
+  comp_skull,
+  comp_blazing,
+  comp_doorlight,
+  comp_model,
+  comp_god,
+  comp_falloff,
+  comp_floors,
+  comp_skymap,
+  comp_pursuit,
+  comp_doorstuck,
+  comp_staylift,
+  comp_zombie,
+  comp_stairs,
+  comp_infcheat,
+  comp_zerotags,
+
+  // from PrBoom+/Eternity Engine (part of mbf21 spec)
+  comp_respawn,
+  comp_soul,
+
+  // mbf21
+  comp_ledgeblock,
+  comp_friendlyspawn,
+
+  MBF21_COMP_TOTAL,
+
+  COMP_TOTAL=32  // Some extra room for additional variables
+};
+
+extern int comp[COMP_TOTAL], default_comp[COMP_TOTAL];
 
 // -------------------------------------------
 // Selected skill type, map etc.
@@ -83,12 +140,11 @@ extern	int		startmap;
 
 // Savegame slot to load on startup.  This is the value provided to
 // the -loadgame option.  If this has not been provided, this is -1.
-
 extern  int             startloadgame;
 
 extern  boolean		autostart;
 
-// Selected by user. 
+// Selected by user.
 extern  skill_t         gameskill;
 extern  int		gameepisode;
 extern  int		gamemap;
@@ -141,27 +197,19 @@ extern  boolean statusbaractive;
 extern  boolean automapactive;	// In AutoMap mode?
 extern  boolean	menuactive;	// Menu overlayed?
 extern  boolean	paused;		// Game Pause?
+extern  boolean	viewactive;
+extern  boolean	nodrawers;
 
-
-extern  boolean		viewactive;
-
-extern  boolean		nodrawers;
-
-
-extern  boolean         testcontrols;
-extern  int             testcontrols_mousespeed;
-
-
-
+extern  boolean testcontrols;
+extern  int     testcontrols_mousespeed;
 
 // This one is related to the 3-screen display mode.
 // ANG90 = left side, ANG270 = right
 extern  int	viewangleoffset;
 
 // Player taking events, and displaying.
-extern  int	consoleplayer;	
+extern  int	consoleplayer;
 extern  int	displayplayer;
-
 
 // -------------------------------------
 // Scores, rating.
@@ -177,44 +225,27 @@ extern  int	levelstarttic;	// gametic at level start
 extern  int	leveltime;	// tics in game play for par
 extern  int	totalleveltimes; // [crispy] CPhipps - total time for all completed levels
 
-
-
 // --------------------------------------
 // DEMO playback/recording related stuff.
-// No demo, there is a human player in charge?
-// Disable save/end game?
-extern  boolean	usergame;
 
-//?
+extern  boolean	usergame;
 extern  boolean	demoplayback;
 extern  boolean	demorecording;
 
 // Round angleturn in ticcmds to the nearest 256.  This is used when
 // recording Vanilla demos in netgames.
-
 extern boolean lowres_turn;
 
 // Quit after playing a demo from cmdline.
-extern  boolean		singledemo;	
+extern  boolean		singledemo;
 
-
-
-
-//?
 extern  gamestate_t     gamestate;
-
-
-
-
-
 
 //-----------------------------
 // Internal parameters, fixed.
 // These are set by the engine, and not changed
 //  according to user inputs. Partly load from
 //  WAD, partly set at startup time.
-
-
 
 // Bookkeeping on players - state.
 extern	player_t	players[MAXPLAYERS];
@@ -233,7 +264,7 @@ extern  mapthing_t      playerstarts[MAXPLAYERS];
 extern  boolean         playerstartsingame[MAXPLAYERS];
 // Intermission stats.
 // Parameters for world map / intermission.
-extern  wbstartstruct_t		wminfo;	
+extern  wbstartstruct_t		wminfo;
 
 
 
@@ -262,21 +293,46 @@ extern  int             mouseSensitivity_y;
 
 extern  int             bodyqueslot;
 
-
-
 // Needed to store the number of the dummy sky flat.
-// Used for rendering,
-//  as well as tracking projectiles etc.
+// Used for rendering, as well as tracking projectiles etc.
 extern int		skyflatnum;
 
-
-
 // Netgame stuff (buffers and pointers, i.e. indices).
-
-
 extern	int		rndindex;
-
 extern  ticcmd_t       *netcmds;
 
+
+//-----------------------------------------------------------------------------
+
+extern int allow_pushers;         // MT_PUSH Things    // phares 3/10/98
+extern int default_allow_pushers;
+
+extern int variable_friction;  // ice & mud            // phares 3/10/98
+extern int default_variable_friction;
+
+extern int monsters_remember;                          // killough 3/1/98
+extern int default_monsters_remember;
+
+extern int dogs, default_dogs;     // killough 7/19/98: Marine's best friend :)
+extern int dog_jumping, default_dog_jumping;   // killough 10/98
+
+// killough 8/8/98: distance friendly monsters tend to stay from player
+extern int distfriend, default_distfriend;
+
+// killough 9/8/98: whether monsters are allowed to strafe or retreat
+extern int monster_backing, default_monster_backing;
+
+// killough 9/9/98: whether monsters intelligently avoid hazards
+extern int monster_avoid_hazards, default_monster_avoid_hazards;
+
+// killough 10/98: whether monsters are affected by friction
+extern int monster_friction, default_monster_friction;
+
+// killough 9/9/98: whether monsters help friends
+extern int help_friends, default_help_friends;
+
+extern int flashing_hom; // killough 10/98
+
+extern int doom_weapon_toggles;   // killough 10/98
 
 #endif

@@ -14,7 +14,7 @@
 //
 // DESCRIPTION:
 //
-//    
+//
 
 
 #ifndef __F_FINALE__
@@ -36,10 +36,6 @@ void F_Ticker (void);
 // Called by main loop.
 void F_Drawer (void);
 
-
 void F_StartFinale (void);
-
-
-
 
 #endif

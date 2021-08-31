@@ -24,6 +24,8 @@
 // Needed for action function pointer handling.
 #include "d_think.h"
 
+#define MAXSTATEARGS 8
+
 typedef enum
 {
     SPR_TROO,
@@ -1239,14 +1241,18 @@ typedef enum
 typedef struct
 {
     spritenum_t sprite;
-    int frame;
-    int tics;
-    // void (*action) ();
-    actionf_t action;
-    statenum_t nextstate;
-    int misc1;
-    int misc2;
+    int         frame;
+    int         tics;
+    // void     (*action) ();
+    actionf_t   action;
+    statenum_t  nextstate;
+    int         misc1, misc2;
+    long        args[MAXSTATEARGS]; // [XA] mbf21 args
+    int         flags;
 } state_t;
+
+// state flags
+#define STATEF_SKILL5FAST 0x00000001 // tics halve on nightmare skill
 
 extern state_t	states[NUMSTATES];
 extern const char *sprnames[];
@@ -1425,6 +1431,23 @@ typedef enum {
 
 } mobjtype_t;
 
+typedef enum {
+  IG_DEFAULT,
+  IG_END
+} infighting_group_t;
+
+typedef enum {
+  PG_GROUPLESS = -1,
+  PG_DEFAULT,
+  PG_BARON,
+  PG_END
+} projectile_group_t;
+
+typedef enum {
+  SG_DEFAULT,
+  SG_END
+} splash_group_t;
+
 typedef struct
 {
     int	doomednum;
@@ -1463,7 +1486,20 @@ typedef struct
     // [crispy] multiplier for likelihood of a missile attack (generaliz. for various)
     int missilechancemult;
 
+    // mbf21
+    int flags2;
+    int infighting_group;
+    int projectile_group;
+    int splash_group;
+    int ripsound;
+    int altspeed;
+    int meleerange;
+
+    // [Woof!]
+    int bloodcolor;   // [FG] colored blood and gibs
 } mobjinfo_t;
+
+#define NO_ALTSPEED -1
 
 extern mobjinfo_t mobjinfo[NUMMOBJTYPES];
 
